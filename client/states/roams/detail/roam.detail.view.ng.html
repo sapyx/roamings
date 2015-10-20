@@ -5,53 +5,89 @@
     In this Roam there
     <ng-pluralize
             count="crew.length"
-            when="{one:'is {{crew.length}} member, he did', other:'are {{crew.length}} members, they have made'}">
+            when="{one:'is {{crew.length}} member, he ', other:'are {{crew.length}} members, they have '}">
     </ng-pluralize>
-    {{stats.kills}} kills and {{stats.losses}} losses.<br/>
+    <ng-pluralize
+            ng-if="stats.kills"
+            count="crew.length"
+            when="{one:'did', other:'made'}">
+    </ng-pluralize>
+    <span ng-if="stats.kills">{{stats.kills}}
+        <ng-pluralize
+                count="crew.length"
+                when="{one:'kill.', other:'kills.'}">
+        </ng-pluralize>
+    </span>
+    <span ng-if="stats.kills && stats.losses">and</span>
+    <span ng-if="stats.losses">suffered {{stats.losses}}
+        <ng-pluralize
+                count="crew.length"
+                when="{one:'loss.', other:'losses.'}">
+        </ng-pluralize>
+    </span>
+    <br/>
     <small>
         Meanwhile,
         <ng-pluralize
                 count="crew.length"
                 when="{one:'he had', other:'they have'}">
         </ng-pluralize>
-        caused
-        <strong>
-            {{stats.killDamage | number : 0}}
-        </strong>
-        HP of damage, undergoing
-        <strong>
-            {{stats.lossDamage | number : 0}}
-        </strong> HP, with a ratio of
-        <strong>
-            {{(stats.killDamage/stats.lossDamage) | number : 1}}:1&nbsp;({{stats.killDamage |
-            efficiency : stats.lossDamage : 2}}%)
-        </strong>. From the economic point of view
+        <span ng-if="stats.kills">
+            caused
+            <strong>
+                {{stats.killDamage | number : 0}}
+            </strong>
+            HP of
+        </span>
+        <span ng-if="!stats.losses">damage. </span>
+        <span ng-if="stats.kills && stats.losses">damage, </span>
+        <span ng-if="stats.losses">
+            suffered
+            <strong>
+                {{stats.lossDamage | number : 0}}
+            </strong> HP of damage
+        </span>
+        <span ng-if="stats.kills && stats.losses">
+            , with a ratio of
+            <strong>
+                {{(stats.killDamage/stats.lossDamage) | number : 1}}:1&nbsp;({{stats.killDamage |
+                efficiency : stats.lossDamage : 2}}%)
+            </strong>.
+        </span>
+        From the economic point of view
         <ng-pluralize
                 count="crew.length"
                 when="{one:'he had', other:'they have'}">
         </ng-pluralize>
-        caused losses for
-        <strong>
-            {{stats.killValue | iskFormat}}
-        </strong>
-        ISK (referring to the total kill) and
-        <strong>
-            {{stats.killsByDamageValue | iskFormat}}
-        </strong>
-        ISK (referring to the damage inflicted), suffering losses for
-        <strong>
-            {{stats.lossValue | iskFormat}}
-        </strong>
-        ISK, with a ratio of
-        <strong>
-            {{(stats.killValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killValue |
-            efficiency : stats.lossValue : 2}}%)
-        </strong>
-        and
-        <strong>
-            {{(stats.killsByDamageValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killsByDamageValue |
-            efficiency : stats.lossValue : 2}}%)
-        </strong>.
+        <span ng-if="stats.kills">
+            caused losses for
+            <strong>
+                {{stats.killValue | iskFormat}}
+            </strong>
+            ISK (referring to the total kill) and
+            <strong>
+                {{stats.killsByDamageValue | iskFormat}}
+            </strong>
+            ISK (referring to the damage inflicted
+        </span>
+        <!--<span ng-if="!stats.losses">damage. </span>-->
+        <span ng-if="stats.kills && stats.losses">), </span>
+        <span ng-if="stats.losses">
+            suffering losses for
+            <strong>
+                {{stats.lossValue | iskFormat}}
+            </strong>
+            ISK, with a ratio of
+            <strong>
+                {{(stats.killValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killValue |
+                efficiency : stats.lossValue : 2}}%)
+            </strong>
+            and
+            <strong>
+                {{(stats.killsByDamageValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killsByDamageValue |
+                efficiency : stats.lossValue : 2}}%)
+            </strong>
+        </span>.
     </small>
 </h4>
 
