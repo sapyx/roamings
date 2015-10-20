@@ -16,12 +16,12 @@
         </ng-pluralize>
         caused
         <strong>
-            {{stats.killDamage | number : 0}} HP
+            {{stats.killDamage | number : 0}}
         </strong>
-        of damage, undergoing
+        HP of damage, undergoing
         <strong>
-            {{stats.lossDamage | number : 0}} HP
-        </strong>, with a ratio of
+            {{stats.lossDamage | number : 0}}
+        </strong> HP, with a ratio of
         <strong>
             {{(stats.killDamage/stats.lossDamage) | number : 1}}:1&nbsp;({{stats.killDamage |
             efficiency : stats.lossDamage : 2}}%)
