@@ -1,0 +1,36 @@
+<div class="aside" tabindex="-1" role="dialog">
+    <div class="aside-dialog">
+        <div class="aside-content">
+            <div class="aside-header" ng-show="title">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="aside-title" ng-bind="title"></h4>
+            </div>
+            <div class="aside-body">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10 col-md-8">
+                        <div class="well well-sm">
+                            <div class=" thumbnail img_container" ng-repeat="pilot in crew | orderBy:'name'">
+                                <a ng-href="https://gate.eveonline.com/Profile/{{pilot.name}}/">
+                                    <span class=" label label-over label-over-top label-over-sx label-danger" bs-tooltip
+                                          data-title="Losses">{{pilot.losses}}</span>
+                                    <span class=" label label-over label-over-top label-over-dx label-success" bs-tooltip
+                                          data-title="Kills">{{pilot.kills}}</span>
+                                    <span class=" label label-over label-over-down label-over-sx label-info" bs-tooltip
+                                          data-title="Final Blows">{{pilot.finalBlows}}</span>
+                                    <span class=" label label-over label-over-down label-over-dx label-warning" bs-tooltip
+                                          data-title="Top Damage">{{pilot.topDamage}}</span>
+                                    <img class="img-responsive img-rounded"
+                                         ng-src="https://image.eveonline.com/Character/{{pilot.id}}_128.jpg"
+                                         alt="{{pilot.name}} Image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aside-footer" ng-show="title">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="container">
+    <form class="" novalidate role="form">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend ng-bind-html="legend | toTrusted"></legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <div class="controls">
+                    <input type="text" ng-model="roamName" placeholder="My new roam" ng-required=true
+                           ng-disabled="isEdit" class="css-form form-control">
+                    <span ng-hide="isEdit" class="help-block">Please enter an unique name for this roam.</span>
+                </div>
+            </div>
+
+            <!-- Datetime -->
+            <div class="form-group">
+                <div class="controls">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3 col-md-3">
+                            <input type="text" class="form-control" ng-model="startDate" ng-required=true
+                                   placeholder="Start date" data-container="body" bs-datepicker>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 col-md-3">
+                            <input type="text" class="form-control" ng-model="startDate" ng-required=true
+                                   placeholder="Start time" bs-timepicker>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 col-md-3">
+                            <input type="text" class="form-control" ng-model="endDate" ng-required=true
+                                   placeholder="End date" data-container="body" bs-datepicker>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 col-md-3">
+                            <input type="text" class="form-control" ng-model="endDate" ng-required=true
+                                   placeholder="End time" bs-timepicker>
+                        </div>
+                    </div>
+                </div>
+                <span ng-hide="isEdit" class="help-block">Please enter the datetime to the beginning and the end of the roam.</span>
+                <span ng-hide="!isEdit" class="help-block">You are allowed to modify the datetimes for this roam.</span>
+            </div>
+
+            <div class="panel panel-default" ro-droppable drop="handleDrop">
+                <div class="panel-heading">Crew</div>
+                <div class="panel-body">
+                    <!-- Text input & Buttons -->
+                    <div class="form-group">
+                        <div class="controls">
+                            <div class="input-group">
+                                <input type="text" ng-model="pilotName" placeholder="Pilot name" ng-required=false
+                                       ng-disabled="inTesting"
+                                       class="form-control">
+
+                                <div class="input-group-btn">
+                                    <input type="button" ng-click="addPilots()" value="Save" class="btn btn-success"/>
+                                    <input type="button" ng-click="removePilot()" value="Remove" class="btn btn-danger"/>
+                                </div>
+                            </div>
+                            <span class="help-block">Please enter <span ng-show="isEdit">or remove</span> a crew member for this roam.</span>
+                        </div>
+                    </div>
+                    <div id="alert"></div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>ZKbd</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pilot in crew | orderBy:'name'" ng-class="{warning: !pilot.inZkbd}"
+                            ng-click="selectPilot(pilot.name)">
+                            <td>{{pilot.id}}</td>
+                            <td>{{pilot.name}}</td>
+                            <td>{{pilot.inZkbd}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Button (Double) -->
+            <div class="form-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="button" ng-click="saveRoam()">Save Roam</button>
+                    <button class="btn btn-danger" type="button" ui-sref="roams.list">Dismiss</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

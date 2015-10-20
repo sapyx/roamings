@@ -1,0 +1,57 @@
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="header">
+    <div class="navbar navbar-default navbar-fixed-top " role="navigation" bs-navbar bs-collapse>
+        <div class="container">
+            <div class="navbar-header">
+                <div id="aside-button"></div>
+
+                <button type="button" class="navbar-toggle collapsed" bs-collapse-toggle>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+
+                <span>
+                    <img class="navbar-btn btn-margin-right pull-right img-circle"
+                         ng-if="currentUser"
+                         alt="{{ currentUser.profile.eveOnlineCharacterName }}"
+                         loading-src="char_32.jpg"
+                         image-src="https://image.eveonline.com/Character/{{ currentUser.profile.eveOnlineCharacterId }}_32.jpg">
+                </span>
+
+                <a class="navbar-brand" ui-sref="home">Roamings</a>
+            </div>
+
+            <div bs-collapse-target>
+                <ul class="nav navbar-nav">
+                    <li data-match-route="/$"><a ui-sref="home">Home</a></li>
+                    <li data-match-route="/roams"><a ui-sref="roams.list">Roams</a></li>
+                    <li data-match-route="/about"><a ui-sref="about">About</a></li>
+                    <li data-match-route="/contact"><a ui-sref="contact">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<meteor-include src="atForm"></meteor-include>-->
+                    <li ng-if="currentUser" data-match-route="/logoff"><a ui-sref="logoff">Log Off</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container"><span ncy-breadcrumb></span></div>
+</div>
+
+<div class="container" ui-view ng-cloak></div>
+
+<div class="footer">
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="navbar-text pull-left">&copy; 2015
+                <a href="https://gate.eveonline.com/Profile/Anne%20Sapyx" target="_blank">Anne Sapyx</a>
+                [D-E-X]</p>
+            <span go-top class="navbar-text pull-right glyphicon glyphicon-arrow-up"></span>
+        </div>
+    </div>
+</div>
