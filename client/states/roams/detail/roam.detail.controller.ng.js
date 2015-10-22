@@ -24,7 +24,7 @@ angular.module('roamingsApp')
 
         var compileFunction = $compile(
             '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#left-navbar-collapse" ' +
-            'data-animation="am-slide-left" data-placement="left" data-template="client/states/home/crew-aside.tpl.ng.html" ' +
+            'data-animation="am-slide-left" data-placement="left" data-template="client/states/roams/detail/crew-aside.tpl.ng.html" ' +
             'title="Crew" bs-aside="" data-container="body"> ' +
             '<span class="sr-only">Toggle Crew</span> ' +
             '<span class="glyphicon glyphicon-user"></span> ' +
@@ -71,12 +71,6 @@ angular.module('roamingsApp')
                 killsByDamageValue: 0
             };
         }
-
-/*
-        var init = function (asyncRun) {
-            asyncRun();
-        };
-*/
 
         var setChangeSSystemortKills = function () {
             var solarSystemId = 0;
