@@ -3,25 +3,25 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:RoamsNewCtrl
- * @requires $scope
+ * @requires
 
  * @description
  * # RoamsNewCtrl
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamNewCtrl', function ($scope) {
+    .controller('RoamNewCtrl', function () {
+      var self = this;
 
-      $scope.saveRoam = function (roamName) {
+      self.saveRoam = function (roamName) {
         console.log('External \'Save Roam\' for %s, called', roamName);
       };
 
-      $scope.removePilot = function (pilotName) {
+      self.removePilot = function (pilotName) {
         console.log('External \'Remove Pilot\' for %s, called', pilotName);
       };
 
-      $scope.addPilot = function (pilotName) {
+      self.addPilot = function (pilotName) {
         console.log('External \'Add Pilot\' for %s, called', pilotName);
       };
-
     });

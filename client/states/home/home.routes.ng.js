@@ -6,7 +6,7 @@ angular.module('roamingsApp')
             .state('home', {
                 url: '/',
                 templateUrl: 'client/states/home/home.view.ng.html',
-                controller: 'HomeCtrl',
+                controller: 'HomeCtrl as home',
                 ncyBreadcrumb: {label: 'Home'}
             });
     });

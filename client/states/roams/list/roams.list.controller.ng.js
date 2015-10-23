@@ -3,7 +3,6 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:RoamsListCtrl
- * @requires $scope
  * @requires $filter
  * @requires $state
  * @requires localStorageService
@@ -12,19 +11,21 @@
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamsListCtrl', function ($scope, $filter, $state, localStorageService) {
+    .controller('RoamsListCtrl', function ($filter, $state, localStorageService) {
+        var self = this;
+
         if (localStorageService.isSupported) {
-            $scope.rowCollection = [];
+            self.rowCollection = [];
             var keys = localStorageService.keys();
 
-            $scope.open = {'title': "Open this roam"};
-            $scope.edit = {'title': "Edit this roam"};
-            $scope.delete = {'title': "Delete this roam"};
+            self.open = {'title': "Open this roam"};
+            self.edit = {'title': "Edit this roam"};
+            self.delete = {'title': "Delete this roam"};
 
             angular.forEach(keys, function (value) {
                 var content = localStorageService.get(value);
 
-                $scope.rowCollection.push({
+                self.rowCollection.push({
                     'label': value,
                     'startDate': content.startDate,
                     'endDate': content.endDate,
@@ -34,11 +35,11 @@ angular.module('roamingsApp')
             });
         }
 
-        $scope.rowSelected = function (roam, selected) {
+        self.rowSelected = function (roam, selected) {
             roam.actions = selected;
         };
 
-        $scope.useEvent = function ($event) {
+        self.useEvent = function ($event) {
             var action = $event.target.id;
             var label = angular.element($event.target).scope().row.label;
 
@@ -47,7 +48,7 @@ angular.module('roamingsApp')
                     $state.go('roams.edit', {roamName: label});
                     break;
                 case 'remove':
-                    $scope.rowCollection = $filter('filter')($scope.rowCollection, {label: '!' + label}, false);
+                    self.rowCollection = $filter('filter')(self.rowCollection, {label: '!' + label}, false);
 
                     if (localStorageService.isSupported) {
                         localStorageService.remove(label);

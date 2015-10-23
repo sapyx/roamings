@@ -3,12 +3,12 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:AboutCtrl
- * @requires $scope
+ * @requires
  * @description
  * # AboutCtrl
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('AboutCtrl', function ($scope) {
-      $scope.version = '0.6.1';
+    .controller('AboutCtrl', function () {
+      this.version = '0.6.1';
     });

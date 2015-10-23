@@ -3,7 +3,6 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:RoamsEditCtrl
- * @requires $scope
  * @requires $routeParams
 
  * @description
@@ -11,20 +10,21 @@
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamEditCtrl', function ($scope, $stateParams) {
-      $scope.legend = 'Edit Roam <i>' + $stateParams.roamName + '</i>';
-      $scope.roamName = $stateParams.roamName;
+    .controller('RoamEditCtrl', function ($stateParams) {
+      var self = this;
 
-      $scope.saveRoam = function (roamName) {
+      self.legend = 'Edit Roam <i>' + $stateParams.roamName + '</i>';
+      self.roamName = $stateParams.roamName;
+
+      self.saveRoam = function (roamName) {
         console.log('RoamsEdit: External \'Save Roam\' for %s, called', roamName);
       };
 
-      $scope.removePilot = function (pilotName) {
+      self.removePilot = function (pilotName) {
         console.log('RoamsEdit: External \'Remove Pilot\' for %s, called', pilotName);
       };
 
-      $scope.addPilot = function (pilotName) {
+      self.addPilot = function (pilotName) {
         console.log('RoamsEdit: External \'Add Pilot\' for %s, called', pilotName);
       };
-
     });

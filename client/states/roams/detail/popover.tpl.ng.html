@@ -1,35 +1,37 @@
 <div class="popover">
-    <p class="popover-title"  ng-show="name">
+    <p class="popover-title" ng-show="name">
         <strong>{{name}}</strong>
-        <img ng-src={{defaultImages.corp_32}}>
+        <img ng-src={{roamDetail.defaultImages.corp_32}}>
 
-        <img ng-src={{defaultImages.ally_32}}>
+        <img ng-src={{roamDetail.defaultImages.ally_32}}>
     </p>
 
     <div class="popover-content" style="min-width: 256px">
         <div class="panel panel-default">
             <div class="panel-body">
                 <img class="img-rounded img-responsive"
-                     loading-src={{defaultImages.char_256}}
-                             image-src="https://image.eveonline.com/Character/{{id}}_256.jpg"
+                     loading-src={{roamDetail.defaultImages.char_256}}
+                     image-src="https://image.eveonline.com/Character/{{id}}_256.jpg"
                      ng-show="id">
             </div>
-
             <div class="panel-heading">
-                <p class="panel-title">Money Wasted</p></div>
+                <p class="panel-title">Money Wasted</p>
+            </div>
             <div class="panel-body">
-
                 Full: <span class="pull-right">{{killsValue | iskFormat}} ISK</span>
                 <br/>By Damage: <span class="pull-right">{{killsByDamageValue | iskFormat}} ISK</span>
-          <span ng-if="lossValue"><br/>Lost: <span
-                  class="pull-right">{{lossValue | iskFormat}} ISK</span></span>
+                <span ng-if="lossValue"><br/>Lost:
+                    <span class="pull-right">{{lossValue | iskFormat}} ISK</span>
+                </span>
             </div>
             <div class="panel-heading">
-                <p class="panel-title">Damage</p></div>
+                <p class="panel-title">Damage</p>
+            </div>
             <div class="panel-body">
                 Inflicted: <span class="pull-right">{{killsDamage | number : 0}} HP</span>
-            <span ng-if="lossDamage"><br/>Received: <span
-                    class="pull-right">{{lossDamage | number : 0}} HP</span></span>
+                <span ng-if="lossDamage"><br/>Received:
+                    <span class="pull-right">{{lossDamage | number : 0}} HP</span>
+                </span>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ angular.module('roamingsApp')
             .state('contact', {
                 url: '/contact',
                 templateUrl: 'client/states/contact/contact.view.ng.html',
-                controller: 'ContactCtrl',
+                controller: 'ContactCtrl as contact',
                 ncyBreadcrumb: {label: 'Contact'}
             });
     });

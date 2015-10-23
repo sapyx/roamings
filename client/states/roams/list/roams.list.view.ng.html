@@ -12,9 +12,9 @@
                 <th colspan="3">Actions</th>
             </tr>
             </thead>
-            <tbody ng-click="useEvent($event)">
-            <tr ng-repeat="row in rowCollection | orderBy:'startDate'"
-                ng-mouseenter="rowSelected(row, true)" ng-mouseleave="rowSelected(row, false)">
+            <tbody ng-click="roamsList.useEvent($event)">
+            <tr ng-repeat="row in roamsList.rowCollection | orderBy:'startDate'"
+                ng-mouseenter="roamsList.rowSelected(row, true)" ng-mouseleave="roamsList.rowSelected(row, false)">
                 <td>{{row.label}}</td>
                 <td>{{row.startDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>
                 <td>{{row.endDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>

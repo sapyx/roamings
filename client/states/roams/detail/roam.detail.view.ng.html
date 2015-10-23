@@ -1,39 +1,39 @@
 <!-- Title -->
-<h1><span view-title>Roaming Detail</span> for <em>{{roamName}}</em>
+<h1><span view-title>Roaming Detail</span> for <em>{{roamDetail.roamName}}</em>
     <small>
-        <br/>from {{startDate | date:'yyyy-MM-dd HH:mm'}} to {{endDate | date:'yyyy-MM-dd HH:mm'}}
+        <br/>from {{roamDetail.startDate | date:'yyyy-MM-dd HH:mm'}} to {{roamDetail.endDate | date:'yyyy-MM-dd HH:mm'}}
     </small>
 </h1>
 <!-- Header -->
 <h4 class="text-justify">
     In this Roam there
     <ng-pluralize
-            count="crew.length"
-            when="{one:'is {{crew.length}} member, ', other:'are {{crew.length}} members, '}">
+            count="roamDetail.crew.length"
+            when="{one:'is {{roamDetail.crew.length}} member, ', other:'are {{roamDetail.crew.length}} members, '}">
     </ng-pluralize>
-    <span ng-if="!stats.kills && !stats.losses">no one was harmed.</span>
-    <span ng-if="stats.kills || stats.losses">
-        <span ng-if="stats.kills">
+    <span ng-if="!roamDetail.stats.kills && !roamDetail.stats.losses">no one was harmed.</span>
+    <span ng-if="roamDetail.stats.kills || roamDetail.stats.losses">
+        <span ng-if="roamDetail.stats.kills">
             <ng-pluralize
-                count="crew.length"
+                count="roamDetail.crew.length"
                 when="{one:'he did', other:' they have made'}">
             </ng-pluralize>
-            {{stats.kills}}
+            {{roamDetail.stats.kills}}
             <ng-pluralize
-                    count="crew.length"
+                    count="roamDetail.crew.length"
                     when="{one:'kill', other:'kills'}">
             </ng-pluralize><!--
-         --><span ng-if="!stats.losses">.</span>
-            <span ng-if="stats.losses">and</span>
+         --><span ng-if="!roamDetail.stats.losses">.</span>
+            <span ng-if="roamDetail.stats.losses">and</span>
         </span>
-        <span ng-if="stats.losses">
+        <span ng-if="roamDetail.stats.losses">
             <ng-pluralize
-                    count="crew.length"
+                    count="roamDetail.crew.length"
                     when="{one:'he had', other:' they have'}">
             </ng-pluralize>
-            suffered {{stats.losses}}
+            suffered {{roamDetail.stats.losses}}
             <ng-pluralize
-                    count="crew.length"
+                    count="roamDetail.crew.length"
                     when="{one:'loss.', other:'losses.'}">
             </ng-pluralize>
         </span>
@@ -42,68 +42,68 @@
         <small>
             Meanwhile,
             <ng-pluralize
-                    count="crew.length"
+                    count="roamDetail.crew.length"
                     when="{one:'he had', other:'they have'}">
             </ng-pluralize>
-            <span ng-if="stats.kills">
+            <span ng-if="roamDetail.stats.kills">
                 caused
                 <strong>
-                    {{stats.killDamage | number : 0}}
+                    {{roamDetail.stats.killDamage | number : 0}}
                 </strong>
                 HP of damage<!--
          --></span><!--
-         --><span ng-if="!stats.losses">. </span>
-            <span ng-if="stats.kills && stats.losses">and</span>
-            <span ng-if="stats.losses">
+         --><span ng-if="!roamDetail.stats.losses">. </span>
+            <span ng-if="roamDetail.stats.kills && roamDetail.stats.losses">and</span>
+            <span ng-if="roamDetail.stats.losses">
                 suffered
                 <strong>
-                    {{stats.lossDamage | number : 0}}
+                    {{roamDetail.stats.lossDamage | number : 0}}
                 </strong>
                 HP of damage<!--
          --></span><!--
-         --><span ng-if="!stats.kills">. </span><!--
-         --><span ng-if="stats.kills && stats.losses"><!--
+         --><span ng-if="!roamDetail.stats.kills">. </span><!--
+         --><span ng-if="roamDetail.stats.kills && roamDetail.stats.losses"><!--
              -->, with a ratio of
                 <strong>
-                    {{(stats.killDamage/stats.lossDamage) | number : 1}}:1&nbsp;({{stats.killDamage |
-                    efficiency : stats.lossDamage : 2}}%)<!--
+                    {{(roamDetail.stats.killDamage/roamDetail.stats.lossDamage) | number : 1}}:1&nbsp;({{roamDetail.stats.killDamage |
+                    efficiency : roamDetail.stats.lossDamage : 2}}%)<!--
              --></strong>.
             </span>
             From the economic point of view
             <ng-pluralize
-                    count="crew.length"
+                    count="roamDetail.crew.length"
                     when="{one:'he had', other:'they have'}">
             </ng-pluralize>
-            <span ng-if="stats.kills">
+            <span ng-if="roamDetail.stats.kills">
                 caused losses for
                 <strong>
-                    {{stats.killValue | iskFormat}}
+                    {{roamDetail.stats.killValue | iskFormat}}
                 </strong>
                 ISK (referring to the total kill) and
                 <strong>
-                    {{stats.killsByDamageValue | iskFormat}}
+                    {{roamDetail.stats.killsByDamageValue | iskFormat}}
                 </strong>
                 ISK (referring to the damage inflicted)<!--
-                --><span ng-if="!stats.losses">. </span><!--
-                --><span ng-if="stats.kills && stats.losses">, </span>
+                --><span ng-if="!roamDetail.stats.losses">. </span><!--
+                --><span ng-if="roamDetail.stats.kills && roamDetail.stats.losses">, </span>
             </span>
-            <span ng-if="stats.losses">
+            <span ng-if="roamDetail.stats.losses">
                 suffering losses for
                 <strong>
-                    {{stats.lossValue | iskFormat}}
+                    {{roamDetail.stats.lossValue | iskFormat}}
                 </strong>
                 ISK<!--
-             --><span ng-if="!stats.kills">. </span><!--
-             --><span ng-if="stats.kills"><!--
+             --><span ng-if="!roamDetail.stats.kills">. </span><!--
+             --><span ng-if="roamDetail.stats.kills"><!--
                  -->, with a ratio of
                     <strong>
-                        {{(stats.killValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killValue |
-                        efficiency : stats.lossValue : 2}}%)
+                        {{(roamDetail.stats.killValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killValue |
+                        efficiency : roamDetail.stats.lossValue : 2}}%)
                     </strong>
                     and
                     <strong>
-                        {{(stats.killsByDamageValue/stats.lossValue) | number : 1}}:1&nbsp;({{stats.killsByDamageValue |
-                        efficiency : stats.lossValue : 2}}%)<!--
+                        {{(roamDetail.stats.killsByDamageValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killsByDamageValue |
+                        efficiency : roamDetail.stats.lossValue : 2}}%)<!--
                  --></strong>.
                 </span>
             </span>
@@ -114,22 +114,21 @@
 <div class="row">
     <div class="col-sm-3 hidden-xs"> <!--Left bar-->
         <div class="well well-sm">
-            <div ng-repeat="pilot in crew | orderBy:'name'">
+            <div ng-repeat="pilot in roamDetail.crew | orderBy:'name'">
                 <div class="trim-text"><strong>{{pilot.name}}</strong></div>
                 <div class="thumbnail img_container">
-
                     <a ng-href="https://gate.eveonline.com/Profile/{{pilot.name}}/">
-                    <span class=" label label-over label-over-top label-over-sx label-danger" bs-tooltip
-                          data-title="Losses">{{pilot.losses}}</span>
-                    <span class=" label label-over label-over-top label-over-dx label-success" bs-tooltip
-                          data-title="Kills">{{pilot.kills}}</span>
-                    <span class=" label label-over label-over-down label-over-sx label-info" bs-tooltip
-                          data-title="Final Blows">{{pilot.finalBlows}}</span>
-                    <span class=" label label-over label-over-down label-over-dx label-warning" bs-tooltip
-                          data-title="Top Damage">{{pilot.topDamage}}</span>
+                        <span class=" label label-over label-over-top label-over-sx label-danger" bs-tooltip
+                              data-title="Losses">{{pilot.losses}}</span>
+                        <span class=" label label-over label-over-top label-over-dx label-success" bs-tooltip
+                              data-title="Kills">{{pilot.kills}}</span>
+                        <span class=" label label-over label-over-down label-over-sx label-info" bs-tooltip
+                              data-title="Final Blows">{{pilot.finalBlows}}</span>
+                        <span class=" label label-over label-over-down label-over-dx label-warning" bs-tooltip
+                              data-title="Top Damage">{{pilot.topDamage}}</span>
                         <img class="img-responsive img-rounded"
                              image-src="https://image.eveonline.com/Character/{{pilot.id}}_128.jpg"
-                             loading-src={{defaultImages.char_128}}
+                             loading-src={{roamDetail.defaultImages.char_128}}
                              alt="{{pilot.name}} Image"
                              bs-popover="pilot" data-template="client/states/roams/detail/popover.tpl.ng.html">
                     </a>
@@ -139,9 +138,9 @@
     </div>
     <!-- Kill List -->
     <div class="col-xs-12 col-sm-9"> <!--data area-->
-        <div ng-repeat-start="kill in kills"></div>
+        <div ng-repeat-start="kill in roamDetail.kills"></div>
 
-        <h4 ng-if="kill.ssChanged.changed"> Solar system: {{sysIds[kill.solarSystemID]}}
+        <h4 ng-if="kill.ssChanged.changed"> Solar system: {{roamDetail.sysIds[kill.solarSystemID]}}
             <small ng-if="kill.ssChanged.delta">(+{{kill.ssChanged.delta | timeFormat}} to next system.)</small>
         </h4>
 
@@ -159,42 +158,42 @@
                ng-href="https://gate.eveonline.com/Profile/{{kill.victim.characterName}}/" class="pull-left">
                 <img class="img-responsive img-circle media-object"
                      image-src="https://image.eveonline.com/Character/{{kill.victim.characterID}}_64.jpg"
-                     loading-src={{defaultImages.char_64}}
+                     loading-src={{roamDetail.defaultImages.char_64}}
                      alt="{{kill.victim.characterName}} Image" bs-tooltip
                      data-title="{{kill.victim.characterName}}">
             </a>
 
             <img ng-if="kill.victim.characterName==''" class="img-responsive img-circle media-object pull-left"
-                 ng-src={{defaultImages.deployables_64}}
+                 ng-src={{roamDetail.defaultImages.deployables_64}}
                  alt="Deployables Icon">
 
             <a ng-href="http://o.smium.org/db/type/{{kill.victim.shipTypeID}}" class="pull-right">
                 <img class="img-responsive img-circle media-object"
                      image-src="https://image.eveonline.com/Type/{{kill.victim.shipTypeID}}_64.png"
-                     loading-src={{defaultImages.type_64}}
+                     loading-src={{roamDetail.defaultImages.type_64}}
                      alt="Ship {{kill.victim.shipTypeID}} Image" bs-tooltip
-                     data-title="{{shipIds[kill.victim.shipTypeID]}}">
+                     data-title="{{roamDetail.shipIds[kill.victim.shipTypeID]}}">
             </a>
 
             <div class="media-object pull-right">
                 <img image-src="https://image.eveonline.com/Corporation/{{kill.victim.corporationID}}_32.png"
-                     loading-src={{defaultImages.corp_32}}
+                     loading-src={{roamDetail.defaultImages.corp_32}}
                      alt="Ship {{kill.victim.corporationName}} Image" bs-tooltip
                      data-title="{{kill.victim.corporationName}}"><br/>
                 <img ng-if="kill.victim.allianceID!=0"
                      image-src="https://image.eveonline.com/Alliance/{{kill.victim.allianceID}}_32.png"
-                     loading-src={{defaultImages.ally_32}}
+                     loading-src={{roamDetail.defaultImages.ally_32}}
                      alt="Ship {{kill.victim.allianceName}} Image" bs-tooltip
                      data-title="{{kill.victim.allianceName}}">
             </div>
 
-            <div class="text-black media-body" ng-click="goZKbd(kill.killID)">
+            <div class="text-black media-body" ng-click="roamDetail.goZKbd(kill.killID)">
                 <strong>{{kill.killTime | date:'yyyy-MM-dd HH:mm':'UTC'}}</strong> <br/>
 
                 <div ng-switch="kill.victim.characterName"><em>
-                    <span ng-switch-when=""><strong>{{moonIds[kill.victim.characterID]}}</strong></span>
+                    <span ng-switch-when=""><strong>{{roamDetail.moonIds[kill.victim.characterID]}}</strong></span>
                     <span ng-switch-default><strong>{{kill.victim.characterName}}</strong></span>
-                    - {{shipIds[kill.victim.shipTypeID]}}<br/></em>
+                    - {{roamDetail.shipIds[kill.victim.shipTypeID]}}<br/></em>
                 </div>
                 {{kill.victim.corporationName}}
                 <span ng-if="kill.victim.allianceID!=0">({{kill.victim.allianceName}})</span><br/>

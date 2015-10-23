@@ -6,7 +6,7 @@ angular.module('roamingsApp')
             .state('about', {
                 url: '/about',
                 templateUrl: 'client/states/about/about.view.ng.html',
-                controller: 'AboutCtrl',
+                controller: 'AboutCtrl as about',
                 ncyBreadcrumb: {label: 'About'}
             });
     });

@@ -3,7 +3,8 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:RoamDetailCtrl
- * @requires $scope
+ * @requires $scope, $filter, $stateParams, $state, $window, $compile,
+ *           localStorageService, eveAPI, zKillboardAPI, defaultImages
  * @requires $filter
  * @requires $stateParams
  * @requires $window
@@ -15,10 +16,8 @@
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamDetailCtrl', function ($rootScope, $scope, $filter, $stateParams, $state, $window, $compile,
+    .controller('RoamDetailCtrl', function ($scope, $filter, $stateParams, $state, $window, $compile,
                                             localStorageService, eveAPI, zKillboardAPI, defaultImages) {
-
-        $scope.defaultImages = defaultImages;
 
 // --------- load button ---------------
 
@@ -37,31 +36,34 @@ angular.module('roamingsApp')
             $('#aside-button').html('');
         });
 // --------------------
+        var self = this;
+
+        self.defaultImages = defaultImages;
 
 // read data
-        $scope.roamName = $stateParams.roamName;
+        self.roamName = $stateParams.roamName;
 
         if (localStorageService.isSupported)
-            var roam = localStorageService.get($scope.roamName);
+            var roam = localStorageService.get(self.roamName);
 
         if (!roam || roam.crew.length === 0) {
             $state.go('roams.list');
             return;
         } else {
-            $scope.crew = angular.copy(roam.crew);
+            self.crew = angular.copy(roam.crew);
 
-            $scope.startDate = roam.startDate;
-            $scope.endDate = roam.endDate;
+            self.startDate = roam.startDate;
+            self.endDate = roam.endDate;
 // end read data
 
-            $scope.kills = [];
+            self.kills = [];
 
-            $scope.sysIds = {};
-            $scope.shipIds = {};
-            $scope.moonIds = {};
+            self.sysIds = {};
+            self.shipIds = {};
+            self.moonIds = {};
 
-            $scope.stats = {
-                members: $scope.crew.length,
+            self.stats = {
+                members: self.crew.length,
                 kills: 0,
                 losses: 0,
                 lossDamage: 0,
@@ -76,7 +78,7 @@ angular.module('roamingsApp')
             var solarSystemId = 0;
             var killTime = false;
 
-            angular.forEach($scope.kills, function (value, keys) {
+            angular.forEach(self.kills, function (value, keys) {
                 if (solarSystemId != value.solarSystemID) {
                     value.ssChanged.changed = true;
 
@@ -96,7 +98,7 @@ angular.module('roamingsApp')
             var sysIdsList = '';
             var moonIdsList = '';
 
-            angular.forEach($scope.sysIds, function (value, key) {
+            angular.forEach(self.sysIds, function (value, key) {
                 if (value == '') sysIdsList += key + ',';
             });
             sysIdsList = sysIdsList.slice(0, -1);
@@ -106,17 +108,17 @@ angular.module('roamingsApp')
                     .then(function (systemNames) {
                         if (angular.isArray(systemNames) && systemNames.length > 0) {
                             angular.forEach(systemNames, function (value) {
-                                $scope.sysIds[value._characterID] = value._name;
+                                self.sysIds[value._characterID] = value._name;
                             });
                         } else {
-                            $scope.sysIds[systemNames._characterID] = systemNames._name;
+                            self.sysIds[systemNames._characterID] = systemNames._name;
                         }
                     }
                 );
                 console.log('searchEVECharacterNames: ' + sysIdsList);
             }
 
-            angular.forEach($scope.shipIds, function (value, key) {
+            angular.forEach(self.shipIds, function (value, key) {
                 if (value == '') shipIdsList += key + ',';
             });
             shipIdsList = shipIdsList.slice(0, -1);
@@ -126,18 +128,18 @@ angular.module('roamingsApp')
                     .then(function (shipNames) {
                         if (angular.isArray(shipNames) && shipNames.length > 0) {
                             angular.forEach(shipNames, function (value) {
-                                $scope.shipIds[value._typeID] = value._typeName;
+                                self.shipIds[value._typeID] = value._typeName;
                             });
                         } else {
-                            $scope.shipIds[shipNames._typeID] = shipNames._typeName;
+                            self.shipIds[shipNames._typeID] = shipNames._typeName;
                         }
                     }
                 );
                 console.log('shipIdsList: ' + shipIdsList);
             }
 
-            if ($scope.moonIds.length !== 0) {
-                angular.forEach($scope.moonIds, function (value, key) {
+            if (self.moonIds.length !== 0) {
+                angular.forEach(self.moonIds, function (value, key) {
                     if (value == '') moonIdsList += key + ',';
                 });
 
@@ -148,10 +150,10 @@ angular.module('roamingsApp')
                         .then(function (moonNames) {
                             if (angular.isArray(moonNames) && moonNames.length > 0) {
                                 angular.forEach(moonNames, function (value) {
-                                    $scope.moonIds[value._characterID] = value._name;
+                                    self.moonIds[value._characterID] = value._name;
                                 });
                             } else {
-                                $scope.moonIds[moonNames._characterID] = moonNames._name;
+                                self.moonIds[moonNames._characterID] = moonNames._name;
                             }
                         }
                     );
@@ -160,150 +162,150 @@ angular.module('roamingsApp')
             }
         };
 
-        $scope.goZKbd = function (url) {
+        self.goZKbd = function (url) {
             $window.open('https://beta.eve-kill.net/detail/' + url + '/');
         };
 
 // ------- Init ---------
 
         //init(function () {
-            var len = 0;
-            var charIds = '';
+        var len = 0;
+        var charIds = '';
 
-            do {
-                for (var loop = 0; (loop < 10); loop++) {
-                    if ((loop + len) > $scope.crew.length - 1) {
-                        break;
-                    }
-                    angular.extend($scope.crew[loop + len], {
-                        kills: 0,
-                        killsValue: 0,
-                        killsDamage: 0,
-                        killsByDamageValue: 0,
-                        losses: 0,
-                        lossValue: 0,
-                        lossDamage: 0,
-                        topDamage: 0,
-                        finalBlows: 0
-                    });
-                    charIds += $scope.crew[loop + len].id + ',';
+        do {
+            for (var loop = 0; (loop < 10); loop++) {
+                if ((loop + len) > self.crew.length - 1) {
+                    break;
                 }
-                len += 10;
-                charIds = charIds.slice(0, -1);
+                angular.extend(self.crew[loop + len], {
+                    kills: 0,
+                    killsValue: 0,
+                    killsDamage: 0,
+                    killsByDamageValue: 0,
+                    losses: 0,
+                    lossValue: 0,
+                    lossDamage: 0,
+                    topDamage: 0,
+                    finalBlows: 0
+                });
+                charIds += self.crew[loop + len].id + ',';
+            }
+            len += 10;
+            charIds = charIds.slice(0, -1);
 
-                zKillboardAPI.apiCall(
-                    'combined/endTime/:endTime/startTime/:startTime/characterID/:charIds/',
-                    {
-                        startTime: $filter('date')($scope.startDate, 'yyyyMMddHHmm'),
-                        endTime: $filter('date')($scope.endDate, 'yyyyMMddHHmm'),
-                        charIds: charIds
-                    })
-                    .then(function (value, responseHeaders) {
-                        angular.forEach(value, function (value, key) {
-                            if (($filter('filter')($scope.kills, {killID: value.killID}, true)).length === 0) {
+            zKillboardAPI.apiCall(
+                'combined/endTime/:endTime/startTime/:startTime/characterID/:charIds/',
+                {
+                    startTime: $filter('date')(self.startDate, 'yyyyMMddHHmm'),
+                    endTime: $filter('date')(self.endDate, 'yyyyMMddHHmm'),
+                    charIds: charIds
+                })
+                .then(function (value, responseHeaders) {
+                    angular.forEach(value, function (value, key) {
+                        if (($filter('filter')(self.kills, {killID: value.killID}, true)).length === 0) {
 
-                                console.dir(value);
+                            console.dir(value);
 
-                                var characterID = value.moonID === 0 ? value.victim.characterID : value.moonID;
-                                var characterName = value.moonID === 0 ? value.victim.characterName : '';
+                            var characterID = value.moonID === 0 ? value.victim.characterID : value.moonID;
+                            var characterName = value.moonID === 0 ? value.victim.characterName : '';
 
-                                $scope.shipIds[value.victim.shipTypeID] = '';
-                                $scope.sysIds[value.solarSystemID] = '';
+                            self.shipIds[value.victim.shipTypeID] = '';
+                            self.sysIds[value.solarSystemID] = '';
 
-                                if (characterName == '' && characterID != 0) $scope.moonIds[characterID] = '';
+                            if (characterName == '' && characterID != 0) self.moonIds[characterID] = '';
 
-                                var topDamage = {id: -1, damage: 0};
-                                angular.forEach(value.attackers, function (attacker) {
-                                    angular.forEach($scope.crew, function (member, pos) {
-                                        if (member.id == attacker.characterID) {
-                                            $scope.crew[pos].killsDamage += attacker.damageDone;
-                                            $scope.crew[pos].killsValue += value.zkb.totalValue;
-                                            $scope.crew[pos].killsByDamageValue += value.victim.damageTaken === 0 ? 0 : (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
-                                            $scope.crew[pos].finalBlows += attacker.finalBlow ? 1 : 0;
-                                            $scope.crew[pos].kills++;
+                            var topDamage = {id: -1, damage: 0};
+                            angular.forEach(value.attackers, function (attacker) {
+                                angular.forEach(self.crew, function (member, pos) {
+                                    if (member.id == attacker.characterID) {
+                                        self.crew[pos].killsDamage += attacker.damageDone;
+                                        self.crew[pos].killsValue += value.zkb.totalValue;
+                                        self.crew[pos].killsByDamageValue += value.victim.damageTaken === 0 ? 0 : (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
+                                        self.crew[pos].finalBlows += attacker.finalBlow ? 1 : 0;
+                                        self.crew[pos].kills++;
 
-                                            topDamage = (topDamage.damage < attacker.damageDone) ? {
-                                                id: pos,
-                                                damage: attacker.damageDone
-                                            } : topDamage;
+                                        topDamage = (topDamage.damage < attacker.damageDone) ? {
+                                            id: pos,
+                                            damage: attacker.damageDone
+                                        } : topDamage;
 
-                                            //$scope.stats.killsByDamageValue += $scope.crew[pos].killsByDamageValue;
-                                        }
-                                    });
-                                });
-
-                                if (topDamage.id != -1)
-                                    $scope.crew[topDamage.id].topDamage++;
-
-                                var crewMember = characterID != 0 ? $filter('filter')($scope.crew, {id: characterID}, false) : [];
-
-                                $scope.kills.push({
-                                    killID: value.killID,
-                                    killTime: new Date(Date.UTC(value.killTime.substr(0, 4), parseInt(value.killTime.substr(5, 2)) - 1,
-                                        value.killTime.substr(8, 2), value.killTime.substr(11, 2), value.killTime.substr(14, 2))),
-                                    solarSystemID: value.solarSystemID,
-                                    ssChanged: {changed: null, delta: null},
-                                    victim: {
-                                        characterID: characterID,
-                                        characterName: characterName,
-                                        shipTypeID: value.victim.shipTypeID,
-                                        corporationID: value.victim.corporationID,
-                                        corporationName: value.victim.corporationName,
-                                        allianceID: value.victim.factionID !== 0 ? value.victim.factionID : value.victim.allianceID,
-                                        allianceName: value.victim.factionID !== 0 ? value.victim.factionName : value.victim.allianceName,
-                                        friendly: (crewMember.length != 0)
-                                    },
-                                    // attackers: angular.copy(crewInKill),
-                                    stats: {
-                                        damageTaken: value.victim.damageTaken,
-                                        totalValue: value.zkb.totalValue,
-                                        involved: value.attackers.length
+                                        //self.stats.killsByDamageValue += self.crew[pos].killsByDamageValue;
                                     }
                                 });
+                            });
 
-                                if (crewMember.length != 0) {
-                                    crewMember[0].losses++;
-                                    crewMember[0].lossValue += value.zkb.totalValue;
-                                    crewMember[0].lossDamage += value.victim.damageTaken;
+                            if (topDamage.id != -1)
+                                self.crew[topDamage.id].topDamage++;
 
-                                    $scope.stats.losses++;
-                                    $scope.stats.lossValue += value.zkb.totalValue;
-                                    $scope.stats.lossDamage += value.victim.damageTaken;
-                                } else {
-                                    $scope.stats.kills++;
-                                    //$scope.stats.killValue += value.zkb.totalValue;
-                                    //$scope.stats.killDamage += value.victim.damageTaken;
+                            var crewMember = characterID != 0 ? $filter('filter')(self.crew, {id: characterID}, false) : [];
+
+                            self.kills.push({
+                                killID: value.killID,
+                                killTime: new Date(Date.UTC(value.killTime.substr(0, 4), parseInt(value.killTime.substr(5, 2)) - 1,
+                                    value.killTime.substr(8, 2), value.killTime.substr(11, 2), value.killTime.substr(14, 2))),
+                                solarSystemID: value.solarSystemID,
+                                ssChanged: {changed: null, delta: null},
+                                victim: {
+                                    characterID: characterID,
+                                    characterName: characterName,
+                                    shipTypeID: value.victim.shipTypeID,
+                                    corporationID: value.victim.corporationID,
+                                    corporationName: value.victim.corporationName,
+                                    allianceID: value.victim.factionID !== 0 ? value.victim.factionID : value.victim.allianceID,
+                                    allianceName: value.victim.factionID !== 0 ? value.victim.factionName : value.victim.allianceName,
+                                    friendly: (crewMember.length != 0)
+                                },
+                                // attackers: angular.copy(crewInKill),
+                                stats: {
+                                    damageTaken: value.victim.damageTaken,
+                                    totalValue: value.zkb.totalValue,
+                                    involved: value.attackers.length
                                 }
+                            });
+
+                            if (crewMember.length != 0) {
+                               /* crewMember[0].losses++;
+                                crewMember[0].lossValue += value.zkb.totalValue;
+                                crewMember[0].lossDamage += value.victim.damageTaken;*/
+
+                                self.stats.losses++;
+                                self.stats.lossValue += value.zkb.totalValue;
+                                self.stats.lossDamage += value.victim.damageTaken;
+                            } else {
+                                self.stats.kills++;
+                                //self.stats.killValue += value.zkb.totalValue;
+                                //self.stats.killDamage += value.victim.damageTaken;
                             }
-                        });
-                        angular.forEach($scope.crew, function (member, pos) {
-                            $scope.stats.killValue += member.killsValue;
-                            $scope.stats.killDamage += member.killsDamage;
-                            $scope.stats.killsByDamageValue += member.killsByDamageValue;
-                            console.log("%s - %s", $scope.stats.killsByDamageValue, member.killsByDamageValue)
-                        });
-                        //value.victim.damageTaken === 0 ? 0 : (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
+                        }
+                    });
+                    angular.forEach(self.crew, function (member, pos) {
+                        self.stats.killValue += member.killsValue;
+                        self.stats.killDamage += member.killsDamage;
+                        self.stats.killsByDamageValue += member.killsByDamageValue;
+                        console.log("%s - %s", self.stats.killsByDamageValue, member.killsByDamageValue)
+                    });
+                    //value.victim.damageTaken === 0 ? 0 : (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
 
-                        //console.dir($scope.stats);
+                    //console.dir(self.stats);
 
-                        searchEVENames();
-                        $scope.kills = $filter('orderBy')($scope.kills, '-killTime');
-                        setChangeSSystemortKills();
-                    })
-                    .catch(function (err) {
-                        $alert({
-                            title: 'Add crew',
-                            content: "NewEdit: " + err.status + ", " + err.statusText + " (" + err.url + ")",
-                            type: 'danger'
-                        });
+                    searchEVENames();
+                    self.kills = $filter('orderBy')(self.kills, '-killTime');
+                    setChangeSSystemortKills();
+                })
+                .catch(function (err) {
+                    $alert({
+                        title: 'Add crew',
+                        content: "NewEdit: " + err.status + ", " + err.statusText + " (" + err.url + ")",
+                        type: 'danger'
+                    });
 
-                        console.log("View: %s, %s (%s)", err.status, err.statusText, err.url);
-                    })
-                    /*.finally(function () { })*/;
+                    console.log("View: %s, %s (%s)", err.status, err.statusText, err.url);
+                })
+                /*.finally(function () { })*/;
 
-                charIds = '';
-            }
-            while (len < $scope.crew.length);
+            charIds = '';
+        }
+        while (len < self.crew.length);
         //});
     }
 );
