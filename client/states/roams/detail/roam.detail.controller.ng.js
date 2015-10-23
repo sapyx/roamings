@@ -3,21 +3,21 @@
 /**
  * @ngdoc controller
  * @name roamingsApp.controller:RoamDetailCtrl
- * @requires $scope, $filter, $stateParams, $state, $window, $compile,
- *           localStorageService, eveAPI, zKillboardAPI, defaultImages
+ * @requires $scope
  * @requires $filter
  * @requires $stateParams
  * @requires $window
  * @requires localStorageService
  * @requires roamingsApp.eveAPI
  * @requires roamingsApp.zKillboardAPI
+ * @requires roamingsApp.defaultImages
  * @description
  * # RoamDetailCtrl
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamDetailCtrl', function ($scope, $filter, $stateParams, $state, $window, $compile,
-                                            localStorageService, eveAPI, zKillboardAPI, defaultImages) {
+    .controller('RoamDetailCtrl', function ($scope, $alert, $filter, $stateParams, $state, $window, $compile,
+                                            eveAPI, zKillboardAPI, defaultImages, readDB) {
 
 // --------- load button ---------------
 
@@ -43,10 +43,9 @@ angular.module('roamingsApp')
 // read data
         self.roamName = $stateParams.roamName;
 
-        if (localStorageService.isSupported)
-            var roam = localStorageService.get(self.roamName);
+        var roam = readDB.getRoam(self.roamName, false);
 
-        if (!roam || roam.crew.length === 0) {
+        if (!roam) {
             $state.go('roams.list');
             return;
         } else {

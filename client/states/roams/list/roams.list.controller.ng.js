@@ -5,35 +5,20 @@
  * @name roamingsApp.controller:RoamsListCtrl
  * @requires $filter
  * @requires $state
- * @requires localStorageService
+ * @requires readDB
  * @description
  * # RoamsListCtrl
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamsListCtrl', function ($filter, $state, localStorageService) {
+    .controller('RoamsListCtrl', function ($filter, $state, readDB) {
         var self = this;
 
-        if (localStorageService.isSupported) {
-            self.rowCollection = [];
-            var keys = localStorageService.keys();
+        self.open = {'title': "Open this roam"};
+        self.edit = {'title': "Edit this roam"};
+        self.delete = {'title': "Delete this roam"};
 
-            self.open = {'title': "Open this roam"};
-            self.edit = {'title': "Edit this roam"};
-            self.delete = {'title': "Delete this roam"};
-
-            angular.forEach(keys, function (value) {
-                var content = localStorageService.get(value);
-
-                self.rowCollection.push({
-                    'label': value,
-                    'startDate': content.startDate,
-                    'endDate': content.endDate,
-                    'crew': content.crew.length,
-                    'actions': false
-                });
-            });
-        }
+        self.rowCollection = readDB.getRoamsList(false);
 
         self.rowSelected = function (roam, selected) {
             roam.actions = selected;
@@ -50,9 +35,7 @@ angular.module('roamingsApp')
                 case 'remove':
                     self.rowCollection = $filter('filter')(self.rowCollection, {label: '!' + label}, false);
 
-                    if (localStorageService.isSupported) {
-                        localStorageService.remove(label);
-                    }
+                    readDB.deleteRoam(label, false);
                     break;
                 case 'open':
                 //openRoam(label);
