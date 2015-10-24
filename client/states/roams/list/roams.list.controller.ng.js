@@ -18,7 +18,7 @@ angular.module('roamingsApp')
         self.edit = {'title': "Edit this roam"};
         self.delete = {'title': "Delete this roam"};
 
-        self.rowCollection = readDB.getRoamsList(false);
+        self.roamsList = readDB.getRoamsList(false);
 
         self.rowSelected = function (roam, selected) {
             roam.actions = selected;
@@ -33,7 +33,7 @@ angular.module('roamingsApp')
                     $state.go('roams.edit', {roamName: label});
                     break;
                 case 'remove':
-                    self.rowCollection = $filter('filter')(self.rowCollection, {label: '!' + label}, false);
+                    self.roamsList = $filter('filter')(self.roamsList, {label: '!' + label}, false);
 
                     readDB.deleteRoam(label, false);
                     break;
