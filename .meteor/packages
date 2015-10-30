@@ -22,8 +22,12 @@ angular
 less
 coffeescript
 
+mquandalle:bower
 angularui:angular-ui-router
+#useraccounts:bootstrap
 sapyx:accounts-eveonline
 sapyx:bootstrap
-mquandalle:bower
-useraccounts:bootstrap
+ian:accounts-ui-bootstrap-3
+urigo:angular-blaze-template
+
+

@@ -74,7 +74,7 @@ angular.module('roamingsApp')
             .catch(function (err) {
                 $alert({
                     title: 'Add crew',
-                    content: "Detail: " + retval.err.status + ", " + retval.err.statusText + " (" + retval.err.url + ")",
+                    content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
                     type: 'danger'
                 })
             });

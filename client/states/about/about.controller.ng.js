@@ -10,5 +10,5 @@
  */
 angular.module('roamingsApp')
     .controller('AboutCtrl', function () {
-      this.version = '0.6.1';
+      this.version = '0.7.2';
     });
