@@ -8,6 +8,9 @@
 body {
     padding-top: 70px;
     padding-bottom: 50px;
+    height:100%;
+    background: #fafafa; /* Old browsers */
+    background: linear-gradient(to bottom, #fafafa 0%,#f0f0e0 100%) no-repeat; /* W3C */
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -104,7 +107,11 @@ body {
     color: black;
 }
 
-.nav, .pagination, .carousel, .ng-click, .go-top, .panel-title a {
+/*.nav, .pagination, .carousel, .ng-click, .go-top, .panel-title a {
+    cursor: pointer;
+}*/
+
+[ng-click], [go-top] {
     cursor: pointer;
 }
 
@@ -131,8 +138,6 @@ body {
 
 .img_container {
     position: relative;
-    /*  display:inline-block;
-      text-align:center;*/
 }
 
 .popover_265 {
@@ -144,3 +149,7 @@ body {
     margin-right: 15px;
     margin-bottom: 0px;
 }
+
+/*#dataArea {
+    background: white;
+}*/
