@@ -127,7 +127,7 @@
                         <span class=" label label-over label-over-down label-over-dx label-warning" bs-tooltip
                               data-title="Top Damage">{{pilot.topDamage}}</span>
                         <img class="img-responsive img-rounded"
-                             image-src="https://image.eveonline.com/Character/{{pilot.id}}_128.jpg"
+                             image-src="https://imageserver.eveonline.com/Character/{{pilot.id}}_128.jpg"
                              loading-src={{roamDetail.defaultImages.char_128}}
                              alt="{{pilot.name}} Image"
                              bs-popover="pilot" data-template="client/states/roams/detail/popover.tpl.ng.html">
@@ -157,7 +157,7 @@
             <a ng-if="kill.victim.characterName!=''"
                ng-href="https://gate.eveonline.com/Profile/{{kill.victim.characterName}}/" class="pull-left">
                 <img class="img-responsive img-circle media-object"
-                     image-src="https://image.eveonline.com/Character/{{kill.victim.characterID}}_64.jpg"
+                     image-src="https://imageserver.eveonline.com/Character/{{kill.victim.characterID}}_64.jpg"
                      loading-src={{roamDetail.defaultImages.char_64}}
                      alt="{{kill.victim.characterName}} Image" bs-tooltip
                      data-title="{{kill.victim.characterName}}">
@@ -169,19 +169,19 @@
 
             <a ng-href="http://o.smium.org/db/type/{{kill.victim.shipTypeID}}" class="pull-right">
                 <img class="img-responsive img-circle media-object"
-                     image-src="https://image.eveonline.com/Type/{{kill.victim.shipTypeID}}_64.png"
+                     image-src="https://imageserver.eveonline.com/Type/{{kill.victim.shipTypeID}}_64.png"
                      loading-src={{roamDetail.defaultImages.type_64}}
                      alt="Ship {{kill.victim.shipTypeID}} Image" bs-tooltip
                      data-title="{{roamDetail.shipIds[kill.victim.shipTypeID]}}">
             </a>
 
             <div class="media-object pull-right">
-                <img image-src="https://image.eveonline.com/Corporation/{{kill.victim.corporationID}}_32.png"
+                <img image-src="https://imageserver.eveonline.com/Corporation/{{kill.victim.corporationID}}_32.png"
                      loading-src={{roamDetail.defaultImages.corp_32}}
                      alt="Ship {{kill.victim.corporationName}} Image" bs-tooltip
                      data-title="{{kill.victim.corporationName}}"><br/>
                 <img ng-if="kill.victim.allianceID!=0"
-                     image-src="https://image.eveonline.com/Alliance/{{kill.victim.allianceID}}_32.png"
+                     image-src="https://imageserver.eveonline.com/Alliance/{{kill.victim.allianceID}}_32.png"
                      loading-src={{roamDetail.defaultImages.ally_32}}
                      alt="Ship {{kill.victim.allianceName}} Image" bs-tooltip
                      data-title="{{kill.victim.allianceName}}">

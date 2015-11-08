@@ -15,11 +15,16 @@
                 </button>
 
                 <span>
-                    <img class="navbar-btn btn-margin-right pull-right img-circle"
+                    <img class="navbar-btn btn-margin-right pull-right "
+                         ng-class="{
+                            'img-rounded': 'currentUser.profile.eveOnlineCharacterId==905954997',
+                            'img-circle': 'currentUser.profile.eveOnlineCharacterId!=905954997'
+                         }"
                          ng-if="currentUser"
                          alt="{{ currentUser.profile.eveOnlineCharacterName }}"
-                         loading-src="char_32.jpg"
-                         image-src="https://image.eveonline.com/Character/{{ currentUser.profile.eveOnlineCharacterId }}_32.jpg">
+                         width="32"
+                         height="32"
+                         ng-src="https://imageserver.eveonline.com/Character/{{ currentUser.profile.eveOnlineCharacterId }}_32.jpg">
                 </span>
 
                 <a class="navbar-brand" ui-sref="home">Roamings</a>
@@ -43,7 +48,7 @@
     <div class="container"><span ncy-breadcrumb></span></div>
 </div>
 
-<div class="container" ui-view ng-cloak></div>
+<div id="dataArea" class="container" ui-view ng-cloak></div>
 
 <div class="footer">
     <div class="navbar navbar-default navbar-fixed-bottom">
