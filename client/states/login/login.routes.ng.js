@@ -1,3 +1,4 @@
+/*
 
 'use strict';
 
@@ -7,7 +8,7 @@ angular.module('roamingsApp')
             .state('login', {
                 url: '/signIn',
                 templateUrl: 'client/states/404/404.view.ng.html'
-                /*
+                /!*
                 resolve: {
                     PreviousState: function ($state) {
                         return {Name: $state.current.name, Params: $state.params};
@@ -31,6 +32,7 @@ angular.module('roamingsApp')
 
                     $state.go(PreviousState.Name, PreviousState.Params, {reload: true});
                 }
-*/            })
+*!/            })
     });
 
+*/

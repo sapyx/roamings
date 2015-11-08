@@ -5,14 +5,14 @@ angular.module('roamingsApp')
         $stateProvider
             .state('logoff', {
                 resolve: {
-                    PreviousState: function ($state) {
+                    previousState: function ($state) {
                         return {Name: $state.current.name, Params: $state.params};
                     }
                 },
-                controller: function ($state, PreviousState) {
-                    Meteor.logout();
+                controller: function ($state, $meteor, previousState) {
+                    $meteor.logout();
 
-                    $state.go(PreviousState.Name, PreviousState.Params, {reload: true});
+                    $state.go(previousState.Name, previousState.Params, {reload: true});
                 }
             })
     });

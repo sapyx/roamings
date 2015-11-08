@@ -29,6 +29,8 @@ angular.module('roamingsApp')
          */
 
         self.getRoam = function (roamName, isAuthenticated) {
+//            console.dir($scope.currentUser);
+//
             if (localStorageService.isSupported) {
                 var roam = localStorageService.get(roamName);
 
