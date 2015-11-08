@@ -1,9 +1,14 @@
 <div class="jumbotron">
     <h1>Roamings</h1>
 
-    <img src="http://image.eveonline.com/Corporation/{{home.corporation.Id}}_128.png" alt="{{home.corporation.Ticker}} Logo"><br>
+    <img ng-show="home.corporation"
+         width="128"
+         height="128"
+         loading_src=""
+         image_src="http://imageserver.eveonline.com/Corporation/{{home.corporation.Id}}_128.png"
+         alt="{{home.corporation.Ticker}} Logo"><br>
 
-    <p class="lead">
+    <p ng-show="home.corporation" class="lead">
         The "{{home.corporation.Name}}" roamings application.
     </p>
 
