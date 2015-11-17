@@ -38,8 +38,18 @@
                     <li data-match-route="/contact"><a ui-sref="contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="!currentUser" > <blaze-template name="_loginButtons"></blaze-template></li>
-                    <li ng-if="currentUser" data-match-route="/logoff"><a ui-sref="logoff">Log Off</a></li>
+                    <li ng-if="!currentUser">
+                        <p class="navbar-btn">
+                            <a ui-sref="login" class="btn btn-default">
+                                <img class="btn-eveonline" src="empty_1.png">
+                            </a>
+                        </p>
+                    </li>
+                    <li ng-if="currentUser">
+                        <p class="navbar-btn">
+                            <a ui-sref="logoff" class="btn btn-default">Logoff</a>
+                        </p>
+                    </li>
                 </ul>
             </div>
         </div>
