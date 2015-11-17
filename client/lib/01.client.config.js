@@ -1,32 +1,5 @@
-angular.module('roamingsApp', [
-    'angular-meteor',
-    'ngAnimate',
-    'ngResource',
-    'ngSanitize',
-    'ngTouch',
-    'ui.router',
-    //'ui.bootstrap',
-    //'ui.bootstrap.datetimepicker',
-    'angular-loading-bar',
-    'xml',
-    'ncy-angular-breadcrumb',
-    'LocalStorageModule',
-    'mgcrea.ngStrap',
-    //'dcbImgFallback'
-])
-    /*
-     .module('roamingsApp', [
-     'ngCookies',
-     ])
+angular.module('roamingsApp')
 
-     .run(function ($browser) {
-     $browser.baseHref = function () {
-     return "/"
-     };
-
-     .config(function ($logProvider) {
-     $logProvider.debugEnabled(true);
-     })*/
     .config(function ($resourceProvider) {
         angular.extend($resourceProvider.defaults, {
             stripTrailingSlashes: false
@@ -81,14 +54,3 @@ angular.module('roamingsApp', [
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('xmlHttpInterceptor');
     });
-
-
-onReady = function () {
-    angular.bootstrap(angular.element("html")[0], ['roamingsApp']); //Full jQuery only
-};
-
-if (Meteor.isCordova) {
-    angular.element(document).on('deviceready', onReady);
-} else {
-    angular.element(document).ready(onReady);
-}
