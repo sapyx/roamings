@@ -14,8 +14,6 @@ Meteor.startup(function () {
             }
         ];
 
-        configs.forEach(function (config) {
-            Configs.insert(config);
-        });
+        configs.forEach((config)=> Configs.insert(config));
     }
 });
