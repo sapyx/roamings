@@ -12,7 +12,7 @@ angular.module('roamingsApp')
     .controller('HomeCtrl', function ($meteor) {
         var self = this;
 
-        $meteor.subscribe('configs').then(function (subscriptionHandle) {
+        $meteor.subscribe('configs').then((subscriptionHandle)=> {
             self.corporation = $meteor.collection(Configs, false, false)[0];
 
             // You can use the subscription handle to stop the subscription if you want

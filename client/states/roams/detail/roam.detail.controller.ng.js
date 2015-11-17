@@ -17,8 +17,8 @@
  * Controller of the roamingsApp
  */
 angular.module('roamingsApp')
-    .controller('RoamDetailCtrl', function ($scope, $alert, $stateParams, $state, $window, $compile,
-                                            defaultImages, readDB, manageKills) {
+    .controller('RoamDetailCtrl', function($scope, $alert, $stateParams, $state, $window, $compile, defaultImages, readDB,
+                                   manageKills) {
 
 // --------- load button ---------------
         var compileFunction = $compile(
@@ -43,8 +43,8 @@ angular.module('roamingsApp')
 
         self.roamName = $stateParams.roamName;
 
-    // read data
-       var roam = readDB.getRoam(self.roamName, false);
+        // read data
+        var roam = readDB.getRoam(self.roamName, false);
 
         if (!roam) {
             $state.go('roams.list');
@@ -55,14 +55,12 @@ angular.module('roamingsApp')
             self.startDate = roam.startDate;
             self.endDate = roam.endDate;
         }
-    // end read data
+        // end read data
 
-        self.goZKbd = function (url) {
-            $window.open('https://beta.eve-kill.net/detail/' + url + '/');
-        };
+        self.goZKbd = (url)=> $window.open('https://beta.eve-kill.net/detail/' + url + '/');
 
         manageKills.getKillsForCrew(self.crew, self.startDate, self.endDate)
-            .then(function (retval) {
+            .then((retval)=> {
                 self.kills = retval.kills;
 
                 self.sysIds = retval.sysIds;
@@ -71,7 +69,7 @@ angular.module('roamingsApp')
 
                 self.stats = retval.stats;
             })
-            .catch(function (err) {
+            .catch((err)=> {
                 $alert({
                     title: 'Add crew',
                     content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
