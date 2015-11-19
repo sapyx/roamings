@@ -1,48 +1,43 @@
 'use strict';
 
-/**
- * @ngdoc controller
- * @name roamingsApp.controller:RoamsListCtrl
- * @requires $filter
- * @requires $state
- * @requires readDB
- * @description
- * # RoamsListCtrl
- * Controller of the roamingsApp
- */
-angular.module('roamingsApp')
-    .controller('RoamsListCtrl', function ($filter, $state, readDB) {
-        var self = this;
+class RoamsListController {
+    rowSelected(roam, css_class) {
+        roam.selectedCssClass = css_class;
+    }
 
-        self.open = {'title': "Open this roam"};
-        self.edit = {'title': "Edit this roam"};
-        self.delete = {'title': "Delete this roam"};
+    useEvent(event) {
+        var action = event.target.id;
+        var label = angular.element(event.target).scope().row.label;
 
-        self.roamsList = readDB.getRoamsList(false);
+        switch (action) {
+            case 'edit':
+                this._state.go('roams.edit', {roamName: label});
+                break;
+            case 'remove':
+                this.roamsList = this._filter('filter')(this.roamsList, {label: '!' + label}, false);
 
-        self.rowSelected = function (roam, selected) {
-            roam.actions = selected;
-        };
+                this._readDB.deleteRoam(label, false);
+                break;
+            case 'open':
+            //openRoam(label);
+            //break;
+            default:
+                this._state.go('roams.detail', {roamName: label});
+                break;
+        }
+    }
 
-        self.useEvent = function ($event) {
-            var action = $event.target.id;
-            var label = angular.element($event.target).scope().row.label;
+    constructor($filter, $state, readDB) {
+        this._filter = $filter
+        this._state = $state;
+        this._readDB = readDB;
 
-            switch (action) {
-                case 'edit':
-                    $state.go('roams.edit', {roamName: label});
-                    break;
-                case 'remove':
-                    self.roamsList = $filter('filter')(self.roamsList, {label: '!' + label}, false);
+        this.open = {'title': "Open this roam"};
+        this.edit = {'title': "Edit this roam"};
+        this.remove = {'title': "Delete this roam"};
 
-                    readDB.deleteRoam(label, false);
-                    break;
-                case 'open':
-                //openRoam(label);
-                //break;
-                default:
-                    $state.go('roams.detail', {roamName: label});
-                    break;
-            }
-        };
-    });
+        this.roamsList = this._readDB.getRoamsList(false);
+    }
+}
+
+angular.module('roamingsApp').controller('RoamsListCtrl', RoamsListController);

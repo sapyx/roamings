@@ -14,19 +14,23 @@
             </thead>
             <tbody ng-click="roamsList.useEvent($event)">
             <tr ng-repeat="row in roamsList.roamsList | orderBy:'startDate'"
-                ng-mouseenter="roamsList.rowSelected(row, true)" ng-mouseleave="roamsList.rowSelected(row, false)">
+                ng-mouseenter="roamsList.rowSelected(row, 'text-info')"
+                ng-mouseleave="roamsList.rowSelected(row, 'text-muted')">
                 <td>{{row.label}}</td>
                 <td>{{row.startDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>
                 <td>{{row.endDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>
                 <td>{{row.crew}}</td>
-                <td>
-                    <span id="open" class="glyphicon glyphicon-open" ng-show="row.actions" bs-tooltip="open"></span>
+                <td class="text-muted">
+                    <span id="open" class="glyphicon glyphicon-open " ng-class="row.selectedCssClass"
+                          bs-tooltip="roamsList.open"></span>
                 </td>
-                <td>
-                    <span id="edit" class="glyphicon glyphicon-edit" ng-show="row.actions" bs-tooltip="edit"></span>
+                <td class="text-muted">
+                    <span id="edit" class="glyphicon glyphicon-edit" ng-class="row.selectedCssClass"
+                          bs-tooltip="roamsList.edit"></span>
                 </td>
-                <td>
-                    <span id="remove" class="glyphicon glyphicon-remove" ng-show="row.actions" bs-tooltip="delete"></span>
+                <td class="text-muted">
+                    <span id="remove" class="glyphicon glyphicon-remove" ng-class="row.selectedCssClass"
+                          bs-tooltip="roamsList.remove"></span>
                 </td>
             </tr>
             </tbody>

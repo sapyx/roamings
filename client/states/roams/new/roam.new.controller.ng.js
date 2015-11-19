@@ -1,27 +1,21 @@
 'use strict';
 
-/**
- * @ngdoc controller
- * @name roamingsApp.controller:RoamsNewCtrl
- * @requires
+class RoamNewController {
 
- * @description
- * # RoamsNewCtrl
- * Controller of the roamingsApp
- */
-angular.module('roamingsApp')
-    .controller('RoamNewCtrl', function () {
-      var self = this;
+    saveRoam = function (roamName) {
+        console.log('RoamsNew: External \'Save Roam\' for %s, called', roamName);
+    };
 
-      self.saveRoam = function (roamName) {
-        console.log('External \'Save Roam\' for %s, called', roamName);
-      };
+    removePilot = function (pilotName) {
+        console.log('RoamsNew: External \'Remove Pilot\' for %s, called', pilotName);
+    };
 
-      self.removePilot = function (pilotName) {
-        console.log('External \'Remove Pilot\' for %s, called', pilotName);
-      };
+    addPilot = function (pilotName) {
+        console.log('RoamsNew: External \'Add Pilot\' for %s, called', pilotName);
+    };
 
-      self.addPilot = function (pilotName) {
-        console.log('External \'Add Pilot\' for %s, called', pilotName);
-      };
-    });
+    constructor() {
+    };
+}
+
+angular.module('roamingsApp').controller('RoamNewCtrl', RoamNewController);

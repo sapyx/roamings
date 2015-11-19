@@ -1,27 +1,8 @@
 'use strict';
 
-/**
- * @ngdoc controller
- * @name roamingsApp.controller:RoamDetailCtrl
- * @requires $scope
- * @requires $alert
- * @requires $stateParams
- * @requires $window
- * @requires $state
- * @requires $compile
- * @requires roamingsApp.manageKills
- * @requires roamingsApp.readDB
- * @requires roamingsApp.defaultImages
- * @description
- * # RoamDetailCtrl
- * Controller of the roamingsApp
- */
-angular.module('roamingsApp')
-    .controller('RoamDetailCtrl', function($scope, $alert, $stateParams, $state, $window, $compile, defaultImages, readDB,
-                                   manageKills) {
-
-// --------- load button ---------------
-        var compileFunction = $compile(
+class RoamDetailController {
+    _addCrewButton(element) {
+        var compileFunction = this._compile(
             '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#left-navbar-collapse" ' +
             'data-animation="am-slide-left" data-placement="left" data-template="client/states/roams/detail/crew-aside.tpl.ng.html" ' +
             'title="Crew" bs-aside="" data-container="body"> ' +
@@ -29,45 +10,48 @@ angular.module('roamingsApp')
             '<span class="glyphicon glyphicon-user"></span> ' +
             '</button>'); //compile HTML fragment
 
-        var htmlOuputFromDirective = compileFunction($scope);
-        $('#aside-button').html(htmlOuputFromDirective);
+        angular.element(element).html(compileFunction(this._scope));
 
-        $scope.$on("$destroy", function () {
-            $('#aside-button').html('');
-        });
-// --------------------
+        this._scope.$on("$destroy", ()=> angular.element(element).html(''));
+    }
 
-        var self = this;
+    goZKbd(killCode) {
+        this._window.open('https://beta.eve-kill.net/detail/' + killCode + '/')
+    }
 
-        self.defaultImages = defaultImages;
+    constructor($scope, $compile, $alert, $stateParams, $state, $window, defaultImages, readDB, manageKills) {
+        this._scope = $scope;
+        this._compile = $compile;
+        this._window = $window;
 
-        self.roamName = $stateParams.roamName;
+        this._addCrewButton('#aside-button');
+
+        this.defaultImages = defaultImages;
+        this.roamName = $stateParams.roamName;
 
         // read data
-        var roam = readDB.getRoam(self.roamName, false);
+        var roam = readDB.getRoam(this.roamName, false);
 
         if (!roam) {
             $state.go('roams.list');
             return;
         } else {
-            self.crew = angular.copy(roam.crew);
+            this.crew = angular.copy(roam.crew);
 
-            self.startDate = roam.startDate;
-            self.endDate = roam.endDate;
+            this.startDate = roam.startDate;
+            this.endDate = roam.endDate;
         }
         // end read data
 
-        self.goZKbd = (url)=> $window.open('https://beta.eve-kill.net/detail/' + url + '/');
-
-        manageKills.getKillsForCrew(self.crew, self.startDate, self.endDate)
+        manageKills.getKillsForCrew(this.crew, this.startDate, this.endDate)
             .then((retval)=> {
-                self.kills = retval.kills;
+                this.kills = retval.kills;
 
-                self.sysIds = retval.sysIds;
-                self.shipIds = retval.shipIds;
-                self.moonIds = retval.moonIds;
+                this.sysIds = retval.sysIds;
+                this.shipIds = retval.shipIds;
+                this.moonIds = retval.moonIds;
 
-                self.stats = retval.stats;
+                this.stats = retval.stats;
             })
             .catch((err)=> {
                 $alert({
@@ -76,5 +60,8 @@ angular.module('roamingsApp')
                     type: 'danger'
                 })
             });
+
     }
-);
+}
+
+angular.module('roamingsApp').controller('RoamDetailCtrl', RoamDetailController);
