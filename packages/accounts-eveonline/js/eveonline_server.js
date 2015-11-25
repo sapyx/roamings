@@ -4,6 +4,9 @@ var urlUtil = Npm.require('url');
 OAuth.registerService('eveonline', 2, null, function (query) {
     var response = getTokenResponse(query);
     var verificaton = getVerification(response.accessToken);
+    //var details = getDetails(verificaton.CharacterID);
+
+    //console.log('details: ', details)
 
     return {
         serviceData: {
@@ -60,15 +63,14 @@ var getTokenResponse = function (query) {
     };
 };
 
-var getVerification = function (accessToken) {
-    try {
-        return Meteor.http.get("https://login.eveonline.com/oauth/verify", {headers: {'Authorization': 'Bearer ' + accessToken}}).data;
-    } catch (err) {
-        throw new Error("Failed to verify with EvE login server.\n\n" + err.message);
-    }
+var getDetails = function (characterId) {
+    //debugger
+    angular.module('roamingsApp').run(function (eveAPI) {
+        console.log('eveapi', eveAPI)
+    });
 };
 
-var getDetails = function (accessToken) {
+var getVerification = function (accessToken) {
     try {
         return Meteor.http.get("https://login.eveonline.com/oauth/verify", {headers: {'Authorization': 'Bearer ' + accessToken}}).data;
     } catch (err) {
