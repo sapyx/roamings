@@ -2,11 +2,9 @@
     <h1>Roamings</h1>
 
     <img ng-show="home.corporation"
-         width="128"
-         height="128"
-         loading_src=""
-         image_src="http://imageserver.eveonline.com/Corporation/{{home.corporation.Id}}_128.png"
-         alt="{{home.corporation.Ticker}} Logo"><br>
+         ng-src="{{home.defaultImages.corp_128}}"
+         lazy-img="//imageserver.eveonline.com/Corporation/{{home.corporation.Id}}_128.png"
+         alt="{{home.corporation.Ticker}} Logo"/>
 
     <p ng-show="home.corporation" class="lead">
         The "{{home.corporation.Name}}" roamings application.

@@ -1,7 +1,9 @@
 'use strict';
 
 class HomeController {
-    constructor($meteor) {
+    constructor($meteor, defaultImages) {
+        this.defaultImages = defaultImages;
+
         $meteor.subscribe('configs').then((subscriptionHandle)=> {
             this.corporation = $meteor.collection(Configs, false, false)[0];
 

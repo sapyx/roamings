@@ -19,10 +19,24 @@ class RoamDetailController {
         this._window.open('https://beta.eve-kill.net/detail/' + killCode + '/')
     }
 
-    constructor($scope, $compile, $alert, $stateParams, $state, $window, defaultImages, readDB, manageKills) {
+    refreshImages() {
+        if (!this._refreshed) {
+            this._timeout(null, 1000)
+                .then(()=>this._rootScope.$emit('lazyImg:refresh'));
+            this._refreshed = !this._refreshed;
+        }
+    }
+
+    constructor($rootScope, $scope, $compile, $alert, $stateParams, $state, $window, $timeout,
+                defaultImages, readDB, manageKills) {
+
         this._scope = $scope;
+        this._rootScope = $rootScope;
         this._compile = $compile;
         this._window = $window;
+        this._timeout = $timeout;
+
+        this._refreshed = false;
 
         this._addCrewButton('#aside-button');
 
@@ -60,7 +74,6 @@ class RoamDetailController {
                     type: 'danger'
                 })
             });
-
     }
 }
 

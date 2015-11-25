@@ -1,17 +1,17 @@
-<div class="popover">
+<div class="popover" style="min-width: 320px">
     <p class="popover-title" ng-show="name">
         <strong>{{name}}</strong>
-        <img ng-src={{roamDetail.defaultImages.corp_32}}>
+        <!--<img ng-src={{roamDetail.defaultImages.corp_32}}>-->
 
-        <img ng-src={{roamDetail.defaultImages.ally_32}}>
+        <!--<img ng-src={{roamDetail.defaultImages.ally_32}}>-->
     </p>
 
-    <div class="popover-content" style="min-width: 256px">
+    <div class="popover-content">
         <div class="panel panel-default">
             <div class="panel-body">
-                <img class="img-rounded img-responsive"
-                     loading-src={{roamDetail.defaultImages.char_256}}
-                     image-src="https://imageserver.eveonline.com/Character/{{id}}_256.jpg"
+                <img class="img-rounded img-responsive img-fadein img-256"
+                     style="background: url({{roamDetail.defaultImages.char_256}})"
+                     src="https://imageserver.eveonline.com/Character/{{id}}_256.jpg"
                      ng-show="id">
             </div>
             <div class="panel-heading">
@@ -36,5 +36,6 @@
         </div>
     </div>
 </div>
+
 
 

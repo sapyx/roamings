@@ -15,8 +15,8 @@
     <span ng-if="roamDetail.stats.kills || roamDetail.stats.losses">
         <span ng-if="roamDetail.stats.kills">
             <ng-pluralize
-                count="roamDetail.crew.length"
-                when="{one:'he did', other:' they have made'}">
+                    count="roamDetail.crew.length"
+                    when="{one:'he did', other:' they have made'}">
             </ng-pluralize>
             {{roamDetail.stats.kills}}
             <ng-pluralize
@@ -65,7 +65,8 @@
          --><span ng-if="roamDetail.stats.kills && roamDetail.stats.losses"><!--
              -->, with a ratio of
                 <strong>
-                    {{(roamDetail.stats.killDamage/roamDetail.stats.lossDamage) | number : 1}}:1&nbsp;({{roamDetail.stats.killDamage |
+                    {{(roamDetail.stats.killDamage/roamDetail.stats.lossDamage) | number : 1}}:1&nbsp;({{roamDetail.stats.killDamage
+                    |
                     efficiency : roamDetail.stats.lossDamage : 2}}%)<!--
              --></strong>.
             </span>
@@ -97,12 +98,14 @@
              --><span ng-if="roamDetail.stats.kills"><!--
                  -->, with a ratio of
                     <strong>
-                        {{(roamDetail.stats.killValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killValue |
+                        {{(roamDetail.stats.killValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killValue
+                        |
                         efficiency : roamDetail.stats.lossValue : 2}}%)
                     </strong>
                     and
                     <strong>
-                        {{(roamDetail.stats.killsByDamageValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killsByDamageValue |
+                        {{(roamDetail.stats.killsByDamageValue/roamDetail.stats.lossValue) | number : 1}}:1&nbsp;({{roamDetail.stats.killsByDamageValue
+                        |
                         efficiency : roamDetail.stats.lossValue : 2}}%)<!--
                  --></strong>.
                 </span>
@@ -126,11 +129,11 @@
                               data-title="Final Blows">{{pilot.finalBlows}}</span>
                         <span class=" label label-over label-over-down label-over-dx label-warning" bs-tooltip
                               data-title="Top Damage">{{pilot.topDamage}}</span>
-                        <img class="img-responsive img-rounded"
-                             image-src="https://imageserver.eveonline.com/Character/{{pilot.id}}_128.jpg"
-                             loading-src={{roamDetail.defaultImages.char_128}}
+                        <img class="img-responsive img-rounded img-128"
+                             lazy-img="https://imageserver.eveonline.com/Character/{{pilot.id}}_128.jpg"
+                             ng-src={{roamDetail.defaultImages.char_128}}
                              alt="{{pilot.name}} Image"
-                             bs-popover="pilot" data-template="client/states/roams/detail/popover.tpl.ng.html">
+                             bs-popover="pilot" data-template="client/states/roams/detail/popover.tpl.ng.html"/>
                     </a>
                 </div>
             </div>
@@ -156,33 +159,39 @@
 
             <a ng-if="kill.victim.characterName!=''"
                ng-href="https://gate.eveonline.com/Profile/{{kill.victim.characterName}}/" class="pull-left">
-                <img class="img-responsive img-circle media-object"
-                     image-src="https://imageserver.eveonline.com/Character/{{kill.victim.characterID}}_64.jpg"
-                     loading-src={{roamDetail.defaultImages.char_64}}
+                <img class="img-responsive img-circle media-object img-64"
+                     lazy-img="https://imageserver.eveonline.com/Character/{{kill.victim.characterID}}_64.jpg"
+                     ng-src={{roamDetail.defaultImages.char_64}}
                      alt="{{kill.victim.characterName}} Image" bs-tooltip
-                     data-title="{{kill.victim.characterName}}">
+                     data-title="{{kill.victim.characterName}}" />
             </a>
 
-            <img ng-if="kill.victim.characterName==''" class="img-responsive img-circle media-object pull-left"
-                 ng-src={{roamDetail.defaultImages.deployables_64}}
-                 alt="Deployables Icon">
+            <span class="pull-left">
+                <img ng-if="kill.victim.characterName==''"
+                     class="img-responsive img-circle media-object img-64 "
+                     lazy-img={{roamDetail.defaultImages.deployables_64}}
+                     ng-src={{roamDetail.defaultImages.char_64}}
+                     alt="Deployables Icon" />
+            </span>
 
             <a ng-href="http://o.smium.org/db/type/{{kill.victim.shipTypeID}}" class="pull-right">
-                <img class="img-responsive img-circle media-object"
-                     image-src="https://imageserver.eveonline.com/Type/{{kill.victim.shipTypeID}}_64.png"
-                     loading-src={{roamDetail.defaultImages.type_64}}
+                <img class="img-responsive img-circle media-object img-64"
+                     lazy-img="https://imageserver.eveonline.com/Type/{{kill.victim.shipTypeID}}_64.png"
+                     ng-src={{roamDetail.defaultImages.type_64}}
                      alt="Ship {{kill.victim.shipTypeID}} Image" bs-tooltip
                      data-title="{{roamDetail.shipIds[kill.victim.shipTypeID]}}">
             </a>
 
             <div class="media-object pull-right">
-                <img image-src="https://imageserver.eveonline.com/Corporation/{{kill.victim.corporationID}}_32.png"
-                     loading-src={{roamDetail.defaultImages.corp_32}}
+                <img class="img-32"
+                     lazy-img="https://imageserver.eveonline.com/Corporation/{{kill.victim.corporationID}}_32.png"
+                     ng-src={{roamDetail.defaultImages.corp_32}}
                      alt="Ship {{kill.victim.corporationName}} Image" bs-tooltip
                      data-title="{{kill.victim.corporationName}}"><br/>
-                <img ng-if="kill.victim.allianceID!=0"
-                     image-src="https://imageserver.eveonline.com/Alliance/{{kill.victim.allianceID}}_32.png"
-                     loading-src={{roamDetail.defaultImages.ally_32}}
+                <img class="img-32"
+                     ng-if="kill.victim.allianceID!=0"
+                     lazy-img="https://imageserver.eveonline.com/Alliance/{{kill.victim.allianceID}}_32.png"
+                     ng-src={{roamDetail.defaultImages.ally_32}}
                      alt="Ship {{kill.victim.allianceName}} Image" bs-tooltip
                      data-title="{{kill.victim.allianceName}}">
             </div>
@@ -198,6 +207,7 @@
                 {{kill.victim.corporationName}}
                 <span ng-if="kill.victim.allianceID!=0">({{kill.victim.allianceName}})</span><br/>
             </div>
+            <span ng-if="$last">{{roamDetail.refreshImages()}}</span>
         </div>
     </div>
 </div>

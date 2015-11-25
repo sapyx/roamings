@@ -16,6 +16,7 @@ angular.module('roamingsApp', [
     'ncy-angular-breadcrumb',
     'LocalStorageModule',
     'mgcrea.ngStrap',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'angularLazyImg'
 ]);
 

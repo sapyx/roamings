@@ -53,4 +53,10 @@ angular.module('roamingsApp')
     })
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('xmlHttpInterceptor');
+    })
+    .config(function(lazyImgConfigProvider){
+        lazyImgConfigProvider.setOptions({
+            offset: 10, // how early you want to load image (default = 100)
+            successClass: 'img-load-success' // in case of loading image success what class should be added (default = null)
+        });
     });
