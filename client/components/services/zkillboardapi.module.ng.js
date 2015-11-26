@@ -9,10 +9,8 @@
  * # zKillboardAPI
  * Service to talk with zKillboard api.
  */
-angular.module('roamingsApp')
-  .service('zKillboardAPI', function ($resource) {
-    var self = this;
 
+class zKillboardAPIService {
     /**
      * @ngdoc property
      * @name roamingsApp.zKillboardAPI#apiCall
@@ -26,15 +24,35 @@ angular.module('roamingsApp')
      * @param {object} queryObj Query pairs
      * @param {boolean} isGet Type of query (optional, default false). True = Get, False = Query.
      */
+    apiCall(queryString, queryObj, isGet = false) {
+        this._log.debug('https://beta.eve-kill.net/api/' + queryString + JSON.stringify(queryObj));
 
-    self.apiCall = function (queryString, queryObj, isGet) {
-      console.log('https://beta.eve-kill.net/api/' + queryString + queryObj);
+        var tranformResponseDef = {
+            get: {
+                method: 'GET',
+                headers: {'Access-Control-Allow-Origin': '*'},
+                transformResponse: (data, headers) => {
+                    var response = {};
+                    response = data;
+                    response.headers = headers();
+                    return response;
+                }
+            },
+            query: {
+                method: 'QUERY',
+                headers: {'Access-Control-Allow-Origin': '*'},
+                transformResponse: (data, headers) => {
+                    var response = {};
+                    response = data;
+                    response.headers = headers();
+                    return response;
+                }
+            }
+        };
 
-      isGet = typeof isGet !== 'undefined' ? isGet : false; // default value: false
-
-      var zKillApi = $resource('https://beta.eve-kill.net/api/' + queryString);
-      return zKillApi[isGet ? 'get' : 'query'](queryObj).$promise;
-    };
+        var zKillApi = this._resource('https://beta.eve-kill.net/api/' + queryString/*, {}, tranformResponseDef*/);
+        return zKillApi[isGet ? 'get' : 'query'](queryObj).$promise;
+    }
 
     /**
      * @ngdoc property
@@ -47,15 +65,22 @@ angular.module('roamingsApp')
      * @param {string} pilotId String of comma separated Character Ids
      */
 
-    self.testPilotPresence = function (pilotId) {
-      console.log('stats/characterID/%s/', pilotId);
-      return self.apiCall('stats/characterID/:pilotId/', {pilotId: pilotId}, true)
-        .then(function (value) {
-          return 'groups' in value;
-        })
-        .catch(function (err) {
-          return {status: err.status, statusText: err.statusText, url: err.config.url};
-        });
+    testPilotPresence(pilotId) {
+        this._log.debug('stats/characterID/%s/', pilotId);
+
+        return this.apiCall('stats/characterID/:pilotId/', {pilotId: pilotId}, true)
+            .then(function (value) {
+                return 'groups' in value;
+            })
+            .catch(function (err) {
+                return {status: err.status, statusText: err.statusText, url: err.config.url};
+            });
     }
-  }
-);
+
+    constructor($log, $resource) {
+        this._log = $log;
+        this._resource = $resource;
+    }
+}
+
+angular.module('roamingsApp').service('zKillboardAPI', zKillboardAPIService);
