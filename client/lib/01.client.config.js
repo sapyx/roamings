@@ -1,11 +1,9 @@
 angular.module('roamingsApp')
-
     .config(function ($resourceProvider) {
         angular.extend($resourceProvider.defaults, {
             stripTrailingSlashes: false
         });
     })
-
     .config(function ($datepickerProvider) {
         angular.extend($datepickerProvider.defaults, {
             dateFormat: 'yyyy/MM/dd',
@@ -51,6 +49,9 @@ angular.module('roamingsApp')
             includeAbstract: true
         });
     })
+/*    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push('httpStatusInterceptor');
+    })*/
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('xmlHttpInterceptor');
     })
