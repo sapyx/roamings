@@ -3,5 +3,5 @@
  */
 
 
-console.log('Common Application Declaration: "None"');
+console.info('Common Application Declaration: "None"');
 

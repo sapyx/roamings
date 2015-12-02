@@ -4,5 +4,7 @@
 
 'use strict';
 
+console.log ('Server Bootstrap:', '"roamingsApp"');
+
 angular.bootstrap(['roamingsApp']);
-console.log ('Server Bootstrap: ', 'roamingsApp');
+

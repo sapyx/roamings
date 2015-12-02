@@ -4,6 +4,7 @@
 
 'use strict';
 
-console.log('Server Application Declaration: "roamingsApp"');
+console.info('Server Application Declaration: "roamingsApp"');
+
 angular.module('roamingsApp', []);
 

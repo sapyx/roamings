@@ -69,7 +69,7 @@ class RoamDetailController {
             })
             .catch((err)=> {
                 $alert({
-                    title: 'Add crew',
+                    title: 'Get Kills',
                     content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
                     type: 'danger'
                 })
