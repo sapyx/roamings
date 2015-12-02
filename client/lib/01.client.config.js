@@ -49,15 +49,34 @@ angular.module('roamingsApp')
             includeAbstract: true
         });
     })
-/*    .config(function ($httpProvider) {
-        $httpProvider.interceptors.push('httpStatusInterceptor');
-    })*/
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('xmlHttpInterceptor');
     })
-    .config(function(lazyImgConfigProvider){
+    .config(function (lazyImgConfigProvider) {
         lazyImgConfigProvider.setOptions({
             offset: 10, // how early you want to load image (default = 100)
             successClass: 'img-load-success' // in case of loading image success what class should be added (default = null)
         });
-    });
+    })
+/*    .config([
+        'RestangularProvider', function (RestangularProvider) {
+/!*            RestangularProvider.setResponseExtractor(function (response) {
+                var newResponse = response;
+                if (angular.isArray(response)) {
+                    angular.forEach(newResponse, function (value, key) {
+                        newResponse[key].data = angular.copy(value);
+                    });
+                } else {
+                    newResponse.data = angular.copy(response);
+                }
+
+                return newResponse;
+            });*!/
+
+            RestangularProvider.setResponseInterceptor(function (data, operation, what, url, response, deferred) {
+                var headers = response.headers();
+                var result = response.data;
+                result.headers = headers;
+                return result;
+            });
+        }])*/;

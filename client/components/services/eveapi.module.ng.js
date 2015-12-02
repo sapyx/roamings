@@ -68,27 +68,5 @@ angular.module('roamingsApp')
           return apiResult.eveapi.result.rowset.row;
         });
     };
-
-
-    /**
-     * @ngdoc property
-     * @name roamingsApp.eveAPI#testPilotPresence
-
-     * @methodOf roamingsApp.eveAPI
-     * @description
-     * Method to verify a pilot presence in eveonline
-     * @example
-     * eveAPI.testPilotPresence('905954997', function (apiResult){}, function (httpResponse){});
-     * @param {string} pilotName String of comma separated Character Names.
-     */
-
-    self.testPilotPresence = function (pilotName) {
-      return self.apiCall('eve/CharacterID', {names: pilotName})
-        .then(function (apiResult) {
-          var character = apiResult.eveapi.result.rowset.row;
-
-          return {name:character._name, id:character._characterID};
-        });
-    };
   }
 );
