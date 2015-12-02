@@ -2,7 +2,7 @@
  * Created by Sapyx on 11/11/2015.
  */
 
-console.log('Client Application Declaration: "roamingsApp"');
+console.info('Client Application Declaration: "roamingsApp"');
 
 angular.module('roamingsApp', [
     'angular-meteor',
@@ -17,6 +17,7 @@ angular.module('roamingsApp', [
     'LocalStorageModule',
     'mgcrea.ngStrap',
     'pascalprecht.translate',
-    'angularLazyImg'
+    'angularLazyImg',
+    'restangular'
 ]);
 

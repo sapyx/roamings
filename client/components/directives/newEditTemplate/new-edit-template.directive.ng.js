@@ -62,7 +62,7 @@ angular.module('roamingsApp')
                 };
 
                 $scope.addPilots = function () {
-                    if (+$scope.pilotName===+$scope.pilotName) //is number
+                    if (+$scope.pilotName === +$scope.pilotName) //is number
                         zKillboardAPI.apiCall(
                             'kills/killID/:killID/no-items/', {killID: $scope.pilotName})
                             .then(function (value, responseHeaders) {
@@ -71,11 +71,15 @@ angular.module('roamingsApp')
                                 angular.forEach(value[0].attackers, function (value, key) {
                                     console.dir(value);
 
-                                    var pilotInCrew = $filter('filter')($scope.crew, {name:  value.characterName}, true);
+                                    var pilotInCrew = $filter('filter')($scope.crew, {name: value.characterName}, true);
                                     if (pilotInCrew.length === 0) {
-                                        $scope.pilotAdd()( value.characterName);  //Call external scope's function
+                                        $scope.pilotAdd()(value.characterName);  //Call external scope's function
 
-                                        $scope.crew.push({name: value.characterName, id: value.characterID, inZkbd: true});
+                                        $scope.crew.push({
+                                            name: value.characterName,
+                                            id: value.characterID,
+                                            inZkbd: true
+                                        });
                                     }
                                 });
 
@@ -103,28 +107,37 @@ angular.module('roamingsApp')
                         pilots.testPilot($scope.pilotName)
                             .then(function (pilot) {
                                 // pilotName: pilot.name, eveIsPresent: true, zkbIsPresent: isPresent
-                                if (pilot.eveIsPresent) {
-                                    $scope.crew.push({name: pilot.name, id: pilot.id, inZkbd: pilot.zkbIsPresent});
+                                if (angular.isObject(pilot)) {
+                                    if (pilot.eveIsPresent) {
+                                        $scope.crew.push({name: pilot.name, id: pilot.id, inZkbd: pilot.zkbIsPresent});
 
-                                    if (pilot.zkbIsPresent) {
+                                        if (pilot.zkbIsPresent) {
+                                            $alert({
+                                                title: 'Add crew',
+                                                content: 'Pilot ' + pilot.name + ' exists in EVE AND in zKillboard.',
+                                                type: 'info'
+                                            });
+
+                                        } else {
+                                            $alert({
+                                                title: 'Add crew',
+                                                content: 'Pilot ' + pilot.name + ' NOT exists in zKillboard.',
+                                                type: 'warning'
+                                            });
+                                        }
+                                    }
+                                    else {
                                         $alert({
                                             title: 'Add crew',
-                                            content: 'Pilot ' + pilot.name + ' exists in EVE AND in zKillboard.',
-                                            type: 'info'
-                                        });
-
-                                    } else {
-                                        $alert({
-                                            title: 'Add crew',
-                                            content: 'Pilot ' + pilot.name + ' NOT exists in zKillboard.',
-                                            type: 'warning'
+                                            content: 'Pilot ' + pilot.name + ' NOT exists in EVE.',
+                                            type: 'danger'
                                         });
                                     }
                                 }
                                 else {
                                     $alert({
                                         title: 'Add crew',
-                                        content: 'Pilot ' + pilot.name + ' NOT exists in EVE.',
+                                        content: pilot,
                                         type: 'danger'
                                     });
                                 }
