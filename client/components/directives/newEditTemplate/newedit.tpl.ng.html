@@ -1,16 +1,15 @@
 <div class="container">
     <form class="" novalidate role="form">
         <fieldset>
-
             <!-- Form Name -->
-            <legend ng-bind-html="legend | toTrusted"></legend>
+            <legend ng-bind-html="newEditCtrl.legend | toTrusted"></legend>
 
             <!-- Text input-->
             <div class="form-group">
                 <div class="controls">
-                    <input type="text" ng-model="roamName" placeholder="My new roam" ng-required=true
-                           ng-disabled="isEdit" class="css-form form-control">
-                    <span ng-hide="isEdit" class="help-block">Please enter an unique name for this roam.</span>
+                    <input type="text" ng-model="newEditCtrl.roamName" placeholder="My new roam" ng-required=true
+                           ng-disabled="newEditCtrl.isEdit" class="css-form form-control">
+                    <span ng-hide="newEditCtrl.isEdit" class="help-block">Please enter an unique name for this roam.</span>
                 </div>
             </div>
 
@@ -19,44 +18,44 @@
                 <div class="controls">
                     <div class="row">
                         <div class="col-xs-6 col-sm-3 col-md-3">
-                            <input type="text" class="form-control" ng-model="startDate" ng-required=true
+                            <input type="text" class="form-control" ng-model="newEditCtrl.startDate" ng-required=true
                                    placeholder="Start date" data-container="body" bs-datepicker>
                         </div>
                         <div class="col-xs-6 col-sm-3 col-md-3">
-                            <input type="text" class="form-control" ng-model="startDate" ng-required=true
+                            <input type="text" class="form-control" ng-model="newEditCtrl.startDate" ng-required=true
                                    placeholder="Start time" bs-timepicker>
                         </div>
                         <div class="col-xs-6 col-sm-3 col-md-3">
-                            <input type="text" class="form-control" ng-model="endDate" ng-required=true
+                            <input type="text" class="form-control" ng-model="newEditCtrl.endDate" ng-required=true
                                    placeholder="End date" data-container="body" bs-datepicker>
                         </div>
                         <div class="col-xs-6 col-sm-3 col-md-3">
-                            <input type="text" class="form-control" ng-model="endDate" ng-required=true
+                            <input type="text" class="form-control" ng-model="newEditCtrl.endDate" ng-required=true
                                    placeholder="End time" bs-timepicker>
                         </div>
                     </div>
                 </div>
-                <span ng-hide="isEdit" class="help-block">Please enter the datetime to the beginning and the end of the roam.</span>
-                <span ng-hide="!isEdit" class="help-block">You are allowed to modify the datetimes for this roam.</span>
+                <span ng-hide="newEditCtrl.isEdit" class="help-block">Please enter the datetime to the beginning and the end of the roam.</span>
+                <span ng-hide="!newEditCtrl.isEdit" class="help-block">You are allowed to modify the datetimes for this roam.</span>
             </div>
 
-            <div class="panel panel-default" ro-droppable drop="handleDrop">
+            <div class="panel panel-default">
                 <div class="panel-heading">Crew</div>
                 <div class="panel-body">
                     <!-- Text input & Buttons -->
                     <div class="form-group">
                         <div class="controls">
                             <div class="input-group">
-                                <input type="text" ng-model="pilotName" placeholder="Pilot name" ng-required=false
-                                       ng-disabled="inTesting"
+                                <input type="text" ng-model="newEditCtrl.pilotName" placeholder="Pilot name" ng-required=false
+                                       ng-disabled="newEditCtrl.inTesting"
                                        class="form-control">
 
                                 <div class="input-group-btn">
-                                    <input type="button" ng-click="addPilots()" value="Save" class="btn btn-success"/>
-                                    <input type="button" ng-click="removePilot()" value="Remove" class="btn btn-danger"/>
+                                    <input type="button" ng-click="newEditCtrl.addPilots()" value="Save" class="btn btn-success"/>
+                                    <input type="button" ng-click="newEditCtrl.removePilot()" value="Remove" class="btn btn-danger"/>
                                 </div>
                             </div>
-                            <span class="help-block">Please enter <span ng-show="isEdit">or remove</span> a crew member for this roam.</span>
+                            <span class="help-block">Please enter <span ng-show="newEditCtrl.isEdit">or remove</span> a crew member for this roam.</span>
                         </div>
                     </div>
                     <div id="alert"></div>
@@ -71,8 +70,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="pilot in crew | orderBy:'name'" ng-class="{warning: !pilot.inZkbd}"
-                            ng-click="selectPilot(pilot.name)">
+                        <tr ng-repeat="pilot in newEditCtrl.crew | orderBy:'name'" ng-class="{warning: !pilot.inZkbd}"
+                            ng-click="newEditCtrl.selectPilot(pilot.name)">
                             <td>{{pilot.id}}</td>
                             <td>{{pilot.name}}</td>
                             <td>{{pilot.inZkbd}}</td>
@@ -85,8 +84,8 @@
             <!-- Button (Double) -->
             <div class="form-group">
                 <div class="controls">
-                    <button class="btn btn-success" type="button" ng-click="saveRoam()">Save Roam</button>
-                    <button class="btn btn-danger" type="button" ui-sref="roams.list">Dismiss</button>
+                    <button class="btn btn-success" type="button" ng-click="newEditCtrl.saveRoam()">Save Roam</button>
+                    <button class="btn btn-danger" type="button" ng-click="newEditCtrl.dismissRoam()">Dismiss</button>
                 </div>
             </div>
         </fieldset>

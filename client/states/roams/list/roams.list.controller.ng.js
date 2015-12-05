@@ -28,7 +28,7 @@ class RoamsListController {
     }
 
     constructor($filter, $state, readDB) {
-        this._filter = $filter
+        this._filter = $filter;
         this._state = $state;
         this._readDB = readDB;
 

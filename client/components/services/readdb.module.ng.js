@@ -28,9 +28,14 @@ angular.module('roamingsApp')
          * @param {boolean} isAuthenticated is User authenticated?
          */
 
+        self.saveRoam = function (name, roam, isAuthenticated) {
+            if (localStorageService.isSupported) {
+                if (angular.isString(name) && angular.isObject(roam))
+                    localStorageService.set(name, roam);
+            }
+        };
+
         self.getRoam = function (roamName, isAuthenticated) {
-//            console.dir($scope.currentUser);
-//
             if (localStorageService.isSupported) {
                 var roam = localStorageService.get(roamName);
 
@@ -52,14 +57,15 @@ angular.module('roamingsApp')
 
                 angular.forEach(keys, function (value) {
                     var content = localStorageService.get(value);
-
-                    rowCollection.push({
-                        'label': value,
-                        'startDate': content.startDate,
-                        'endDate': content.endDate,
-                        'crew': content.crew.length,
-                        'actions': false
-                    });
+                    if (angular.isObject(content)) {
+                        rowCollection.push({
+                            'label': value,
+                            'startDate': content.startDate,
+                            'endDate': content.endDate,
+                            'crew': content.crew.length,
+                            'actions': false
+                        });
+                    }
                 });
 
                 return rowCollection;

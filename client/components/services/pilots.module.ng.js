@@ -55,11 +55,11 @@ class pilotsService {
 
     }
 
-    constructor($log, Restangular, eveAPI, zKillboardAPI) {
+    constructor($log, Restangular/*, eveAPI, zKillboardAPI*/) {
         this._log = $log;
 
-        this._zKillboardAPI = zKillboardAPI;
-        this._eveAPI = eveAPI;
+/*        this._zKillboardAPI = zKillboardAPI;
+        this._eveAPI = eveAPI;*/
 
         this._zKbdRestangular = Restangular.withConfig(
             (RestangularConfigurer)=> RestangularConfigurer
