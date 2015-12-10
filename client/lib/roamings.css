@@ -4,13 +4,16 @@
     color: #000;
     padding: 0.2em 0;
 }
+html {
+    background: #fafafa; /* Old browsers */
+    background: linear-gradient(to bottom, #fafafa 0%,#f0f0e0 100%) no-repeat; /* W3C */
+    background-size: cover;
+}
 
 body {
     padding-top: 70px;
     padding-bottom: 50px;
     height:100%;
-    background: #fafafa; /* Old browsers */
-    background: linear-gradient(to bottom, #fafafa 0%,#f0f0e0 100%) no-repeat; /* W3C */
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
