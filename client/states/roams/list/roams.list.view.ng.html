@@ -15,7 +15,9 @@
             <tbody ng-click="roamsList.useEvent($event)">
             <tr ng-repeat="row in roamsList.roamsList | orderBy:'startDate'"
                 ng-mouseenter="roamsList.rowSelected(row, 'text-info')"
-                ng-mouseleave="roamsList.rowSelected(row, 'text-muted')">
+                ng-mouseleave="roamsList.rowSelected(row, 'text-muted')"
+                ng-class="{info:!row.actions}">
+                <!--<td ng-hide>{{row.id}}</td>-->
                 <td>{{row.label}}</td>
                 <td>{{row.startDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>
                 <td>{{row.endDate | date:'yyyy/MM/dd HH:mm':GMT}}</td>
@@ -26,11 +28,11 @@
                 </td>
                 <td class="text-muted">
                     <span id="edit" class="glyphicon glyphicon-edit" ng-class="row.selectedCssClass"
-                          bs-tooltip="roamsList.edit"></span>
+                          bs-tooltip="roamsList.edit" ng-show="row.actions"></span>
                 </td>
                 <td class="text-muted">
                     <span id="remove" class="glyphicon glyphicon-remove" ng-class="row.selectedCssClass"
-                          bs-tooltip="roamsList.remove"></span>
+                          bs-tooltip="roamsList.remove" ng-show="row.actions"></span>
                 </td>
             </tr>
             </tbody>

@@ -27,7 +27,7 @@ class RoamDetailController {
         }
     }
 
-    constructor($rootScope, $scope, $compile, $alert, $stateParams, $state, $window, $timeout,
+    constructor($rootScope, $scope, $compile, $alert, $state, $window, $timeout,
                 defaultImages, readDB, manageKills) {
 
         this._scope = $scope;
@@ -41,38 +41,41 @@ class RoamDetailController {
         this._addCrewButton('#aside-button');
 
         this.defaultImages = defaultImages;
-        this.roamName = $stateParams.roamName;
+        this.roamName = $state.params.roamName;
+
+        var roamId = $state.params.roamId;
 
         // read data
-        var roam = readDB.getRoam(this.roamName, false);
+        readDB.getRoam(this.roamName, roamId, false)
+            .then((roam)=> {
+                if (!roam) {
+                    $state.go('roams.list');
+                    return;
+                } else {
+                    this.crew = angular.copy(roam.crew);
 
-        if (!roam) {
-            $state.go('roams.list');
-            return;
-        } else {
-            this.crew = angular.copy(roam.crew);
+                    this.startDate = roam.startDate;
+                    this.endDate = roam.endDate;
+                }
+                // end read data
 
-            this.startDate = roam.startDate;
-            this.endDate = roam.endDate;
-        }
-        // end read data
+                manageKills.getKillsForCrew(this.crew, this.startDate, this.endDate)
+                    .then((retval)=> {
+                        this.kills = retval.kills;
 
-        manageKills.getKillsForCrew(this.crew, this.startDate, this.endDate)
-            .then((retval)=> {
-                this.kills = retval.kills;
+                        this.sysIds = retval.sysIds;
+                        this.shipIds = retval.shipIds;
+                        this.moonIds = retval.moonIds;
 
-                this.sysIds = retval.sysIds;
-                this.shipIds = retval.shipIds;
-                this.moonIds = retval.moonIds;
-
-                this.stats = retval.stats;
-            })
-            .catch((err)=> {
-                $alert({
-                    title: 'Get Kills',
-                    content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
-                    type: 'danger'
-                })
+                        this.stats = retval.stats;
+                    })
+                    .catch((err)=> {
+                        $alert({
+                            title: 'Get Kills',
+                            content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
+                            type: 'danger'
+                        })
+                    });
             });
     }
 }

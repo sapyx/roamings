@@ -27,6 +27,10 @@ angular.module('roamingsApp')
                 controller: 'RoamDetailCtrl as roamDetail',
                 ncyBreadcrumb: {label: 'Detail', parent: 'roams.list'}
             })
+            .state('roams.detail.remote', {
+                url: '/:roamId',
+                ncyBreadcrumb: {label: 'Detail remote', parent: 'roams.list'}
+            })
             .state('roams.edit', {
                 url: '/edit/:roamName',
                 templateUrl: 'client/states/roams/edit/roam.edit.view.ng.html',
