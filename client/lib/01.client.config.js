@@ -54,29 +54,33 @@ angular.module('roamingsApp')
     })
     .config(function (lazyImgConfigProvider) {
         lazyImgConfigProvider.setOptions({
-            offset: 100, // how early you want to load image (default = 100)
-            successClass: 'img-load-success' // in case of loading image success what class should be added (default = null)
+            offset: 100, // how early you want to load image
+            successClass: 'img-load-success' // in case of loading image success what class should be added
         });
     })
-/*    .config([
-        'RestangularProvider', function (RestangularProvider) {
-/!*            RestangularProvider.setResponseExtractor(function (response) {
-                var newResponse = response;
-                if (angular.isArray(response)) {
-                    angular.forEach(newResponse, function (value, key) {
-                        newResponse[key].data = angular.copy(value);
-                    });
-                } else {
-                    newResponse.data = angular.copy(response);
-                }
+    .config(function ($logProvider, $provide) {
 
-                return newResponse;
-            });*!/
+        $logProvider.debugEnabled(false);
 
-            RestangularProvider.setResponseInterceptor(function (data, operation, what, url, response, deferred) {
-                var headers = response.headers();
-                var result = response.data;
-                result.headers = headers;
-                return result;
-            });
-        }])*/;
+        $provide.decorator('$log', ($delegate) => {
+            //Original methods
+            var origInfo = $delegate.info;
+            var origLog = $delegate.log;
+
+            //Override the default behavior
+            $delegate.info = function () {
+
+                if ($logProvider.debugEnabled())
+                    origInfo.apply(null, arguments)
+            };
+
+            //Override the default behavior
+            $delegate.log = function () {
+
+                if ($logProvider.debugEnabled())
+                    origLog.apply(null, arguments)
+            };
+
+            return $delegate;
+        });
+    });

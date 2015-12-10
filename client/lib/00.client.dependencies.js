@@ -2,8 +2,6 @@
  * Created by Sapyx on 11/11/2015.
  */
 
-console.info('Client Application Declaration: "roamingsApp"');
-
 angular.module('roamingsApp', [
     'angular-meteor',
     'ngAnimate',

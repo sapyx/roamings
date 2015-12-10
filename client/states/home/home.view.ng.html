@@ -1,13 +1,12 @@
 <div class="jumbotron">
     <h1>Roamings</h1>
 
-    <img ng-show="home.corporation"
-         class="img-128"
+    <img class="img-128"
          ng-src="{{home.defaultImages.corp_128}}"
          lazy-img="https://imageserver.eveonline.com/Corporation/{{home.corporation.Id}}_128.png"
          alt="{{home.corporation.Ticker}} Logo"/>
 
-    <p ng-show="home.corporation" class="lead">
+    <p class="lead">
         The "{{home.corporation.Name}}" roamings application.
     </p>
 

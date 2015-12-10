@@ -2,7 +2,7 @@
 
 class AboutController {
     constructor($meteor) {
-        this.version = '0.8.0';
+        this.version = '0.8.5';
     };
 }
 
