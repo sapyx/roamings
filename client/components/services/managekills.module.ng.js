@@ -49,8 +49,12 @@ class manageKillsService {
         sysIdsList = sysIdsList.slice(0, -1);
 
         if (sysIdsList.length !== 0) {
-            this._eveAPI.searchEVECharacterNames(sysIdsList)
-                .then(function (systemNames) {
+            this._eveApiRestangular.all('eve').all("CharacterName").get('', {ids: sysIdsList})
+                .then((apiResult) => {
+                    this._log.info(apiResult.plain());
+
+                    var systemNames = apiResult.eveapi.result.rowset.row;
+
                     if (angular.isArray(systemNames) && systemNames.length > 0) {
                         angular.forEach(systemNames, (value) => {
                             sysIds[value._characterID] = value._name;
@@ -58,9 +62,7 @@ class manageKillsService {
                     } else {
                         sysIds[systemNames._characterID] = systemNames._name;
                     }
-                }
-            );
-            //console.log('searchEVECharacterNames: ' + sysIdsList);
+                });
         }
 
         angular.forEach(shipIds, (value, key) => {
@@ -69,8 +71,12 @@ class manageKillsService {
         shipIdsList = shipIdsList.slice(0, -1);
 
         if (shipIdsList.length !== 0) {
-            this._eveAPI.searchEVETypeNames(shipIdsList)
-                .then(function (shipNames) {
+            this._eveApiRestangular.all('eve').all("TypeName").get('', {ids: shipIdsList})
+                .then((apiResult) => {
+                    this._log.info(apiResult.plain());
+
+                    var shipNames = apiResult.eveapi.result.rowset.row;
+
                     if (angular.isArray(shipNames) && shipNames.length > 0) {
                         angular.forEach(shipNames, (value) => {
                             shipIds[value._typeID] = value._typeName;
@@ -78,9 +84,7 @@ class manageKillsService {
                     } else {
                         shipIds[shipNames._typeID] = shipNames._typeName;
                     }
-                }
-            );
-            //console.log('shipIdsList: ' + shipIdsList);
+                });
         }
 
         if (moonIds.length !== 0) {
@@ -91,8 +95,12 @@ class manageKillsService {
             moonIdsList = moonIdsList.slice(0, -1);
 
             if (moonIdsList.length !== 0) {
-                this._eveAPI.searchEVECharacterNames(moonIdsList)
-                    .then(function (moonNames) {
+                this._eveApiRestangular.all('eve').all("CharacterName").get('', {ids: moonIdsList})
+                    .then((apiResult) => {
+                        this._log.info(apiResult.plain());
+
+                        var moonNames = apiResult.eveapi.result.rowset.row;
+
                         if (angular.isArray(moonNames) && moonNames.length > 0) {
                             angular.forEach(moonNames, (value)=> {
                                 moonIds[value._characterID] = value._name;
@@ -100,8 +108,7 @@ class manageKillsService {
                         } else {
                             moonIds[moonNames._characterID] = moonNames._name;
                         }
-                    }
-                );
+                    });
             }
         }
     }
@@ -134,7 +141,6 @@ class manageKillsService {
 
             angular.forEach(kills, (value, key) => {
                 if ((this._filter('filter')(work.kills, {killID: value.killID}, true)).length === 0) {
-                    //this._log.debug(value);
 
                     var characterID = value.moonID === 0 ? value.victim.characterID : value.moonID;
                     var characterName = value.moonID === 0 ? value.victim.characterName : '';
@@ -163,7 +169,7 @@ class manageKillsService {
                                 member.killsDamage += attacker.damageDone;
                                 member.killsValue += value.zkb.totalValue;
                                 member.killsByDamageValue += value.victim.damageTaken === 0 ? 0 :
-                                    (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
+                                (value.zkb.totalValue / value.victim.damageTaken) * attacker.damageDone;
                                 member.finalBlows += attacker.finalBlow ? 1 : 0;
                                 member.kills++;
 
@@ -235,9 +241,8 @@ class manageKillsService {
 
         do {
             for (var loop = 0; (loop < 10); loop++) {
-                if ((loop + len) > crew.length - 1) {
+                if ((loop + len) > crew.length - 1)
                     break;
-                }
 
                 angular.extend(crew[loop + len], {
                     kills: 0,
@@ -256,7 +261,7 @@ class manageKillsService {
             len += 10;
             charIds = charIds.slice(0, -1);
 
-            killRequests.push(this._Restangular
+            killRequests.push(this._zKbdRestangular
                     .all('combined')
                     .one('startTime', this._filter('date')(startDate, 'yyyyMMddHHmm'))
                     .one('endTime', this._filter('date')(endDate, 'yyyyMMddHHmm'))
@@ -284,14 +289,20 @@ class manageKillsService {
     getSingleKill(crew, startDate, endDate) {
     }
 
-        constructor($q, $filter, $log, Restangular, eveAPI) {
+    constructor($q, $filter, $log, Restangular) {
         this._log = $log;
         this._q = $q;
         this._filter = $filter;
-        this._eveAPI = eveAPI;
 
-        this._Restangular = Restangular
-            .withConfig((RestangularConfigurer)=> RestangularConfigurer.setBaseUrl('https://beta.eve-kill.net/api/'));
+        this._zKbdRestangular = Restangular
+            .withConfig((RestangularConfigurer)=> RestangularConfigurer
+                .setBaseUrl('https://beta.eve-kill.net/api/'));
+
+        this._eveApiRestangular = Restangular
+            .withConfig((RestangularConfigurer)=> RestangularConfigurer
+                .setBaseUrl('https://api.eveonline.com/')
+                .setRequestSuffix('.xml.aspx')
+        );
     }
 }
 
