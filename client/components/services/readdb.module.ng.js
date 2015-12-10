@@ -9,79 +9,111 @@
  * @description
  * # readDB
  * Service in the roamingsApp.
+ **/
 
- */
-angular.module('roamingsApp')
-    .service('readDB', function (localStorageService) {
-        var self = this;
+class readDBService {
+    saveRoam(name, roam, isAuthenticated) {
+        if (this._localStorageService.isSupported) {
+            if (angular.isString(name) && angular.isObject(roam))
+                this._localStorageService.set(name, roam);
+        }
+    }
 
-        /**
-         * @ngdoc property
-         * @name roamingsApp.readDB#getRoam
+    getRoam(roamName, roamId, isAuthenticated) {
+        var roam;
 
-         * @methodOf roamingsApp.readDB
-         * @description
-         * Method to test pilots against Eve and the zKillboard api
-         * @example
-         * readDB.getRoam (roamName, isAuthenticated);
-         * @param {string} roamName Roam Name to retrieve
-         * @param {boolean} isAuthenticated is User authenticated?
-         */
+        if (roamId) {
+            return this._meteor.subscribe('roams')
+                .then((subscriptionHandle)=> {
+                    roam = Roams.findOne({_id: roamId});
 
-        self.saveRoam = function (name, roam, isAuthenticated) {
-            if (localStorageService.isSupported) {
-                if (angular.isString(name) && angular.isObject(roam))
-                    localStorageService.set(name, roam);
-            }
-        };
+                    this._log.debug(roamId, roam);
 
-        self.getRoam = function (roamName, isAuthenticated) {
-            if (localStorageService.isSupported) {
-                var roam = localStorageService.get(roamName);
+                    subscriptionHandle.stop(); //stop the subscription
+
+                    return roam;
+                })
+                .catch((err)=> {
+                    return err;
+                });
+        } else {
+            if (this._localStorageService.isSupported) {
+                var deferred = this._q.defer();
+
+                roam = this._localStorageService.get(roamName);
+
+                this._log.debug(roam);
 
                 if (!roam || roam.crew.length === 0) {
-                    return false; // no roam or empty crew
+                    deferred.reject({error: 'no roam or empty crew'});
                 } else {
-                    return roam;
+                    deferred.resolve(roam);
                 }
-            } else
-                return false; // no service
 
+                return deferred.promise;
+            }
+        }
+    }
 
-        };
+    getRoamsList(isAuthenticated) {
+        var rowCollection = [];
 
-        self.getRoamsList = function (isAuthenticated) {
-            if (localStorageService.isSupported) {
-                var rowCollection = [];
-                var keys = localStorageService.keys();
+        this._meteor.subscribe('roams')
+            .then((subscriptionHandle)=> {
+                var roams = this._meteor.collection(Roams, false, false);
 
-                angular.forEach(keys, function (value) {
-                    var content = localStorageService.get(value);
-                    if (angular.isObject(content)) {
+                angular.forEach(roams, (value)=> {
+                    if (angular.isObject(value)) {
                         rowCollection.push({
-                            'label': value,
-                            'startDate': content.startDate,
-                            'endDate': content.endDate,
-                            'crew': content.crew.length,
+                            'id': value._id,
+                            'label': value.roam,
+                            'startDate': value.startDate,
+                            'endDate': value.endDate,
+                            'crew': value.crew.length,
                             'actions': false
                         });
                     }
                 });
 
-                return rowCollection;
-            } else {
-                return false;
-            }
-        };
+                subscriptionHandle.stop(); //stop the subscription
+            });
 
-        self.deleteRoam = function (roamName, isAuthenticated) {
-            if (localStorageService.isSupported) {
-                localStorageService.remove(roamName);
+        if (this._localStorageService.isSupported) {
+            var keys = this._localStorageService.keys();
 
-                return true
-            } else {
-                return false;
-            }
-        };
+            angular.forEach(keys, (value)=> {
+                var content = this._localStorageService.get(value);
+                if (angular.isObject(content)) {
+                    rowCollection.push({
+                        'label': value,
+                        'startDate': content.startDate,
+                        'endDate': content.endDate,
+                        'crew': content.crew.length,
+                        'actions': true
+                    });
+                }
+            });
+        }
+
+        return rowCollection;
     }
-);
+
+    deleteRoam(roamName, isAuthenticated) {
+        if (this._localStorageService.isSupported) {
+            this._localStorageService.remove(roamName);
+
+            return true
+        } else {
+            return false;
+        }
+    }
+
+    constructor($q, $log, $meteor, localStorageService) {
+        this._log = $log;
+        this._q = $q;
+        this._meteor = $meteor;
+        this._localStorageService = localStorageService;
+    }
+}
+
+angular.module('roamingsApp').service('readDB', readDBService);
