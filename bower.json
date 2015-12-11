@@ -12,7 +12,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-animate": "~1.4.0",
+    "angular-animate": "~1.4.8",
     "angular-breadcrumb": "~0.4.0",
     "angular-lazy-img": "~1.2.2",
     "angular-loading-bar": "~0.7.1",
@@ -39,5 +39,8 @@
   },
   "authors": [
     "Sapyx <sapyx@aruba.it>"
-  ]
+  ],
+  "resolutions": {
+    "angular": "1.4.8"
+  }
 }
