@@ -9,8 +9,8 @@
  * Filter in the roamingsApp.
  */
 angular.module('roamingsApp')
-  .filter('toTrusted', function ($sce) {
-    return function (input) {
-      return $sce.trustAsHtml(input);
-    };
-  });
+    .filter('toTrusted', ($sce) => {
+        return (input)=> {
+            return $sce.trustAsHtml(input);
+        };
+    });
