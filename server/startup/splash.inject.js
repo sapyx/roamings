@@ -6,9 +6,11 @@
 Meteor.startup(function () {
     Inject.rawHead('loader-style',
         '<meta name="viewport" content="width=device-width,maximum-scale=1,initial-scale=1,user-scalable=no">' +
-        '<style>' +
+        '<style id="tmp">' +
             'html{background-color: #36342e;}' +
-            //'body{color:#ddd;overflow:hidden;width:100%;}' +
+            '.banner {' +
+                'text-align:center;' +
+            '}' +
             '.spinner {' +
                 'bottom:0;height:80px;left:0;margin:auto;position:absolute;' +
                 'top:0;right:0;width:80px;' +
@@ -39,10 +41,11 @@ Meteor.startup(function () {
         '</style>'
     );
 
-    Inject.rawHead('loader-body2',
+    Inject.rawHead('loader-body',
         '<body>'+
             '<div class="spinner"></div>'+
-            '<h1 style="text-align:center" class="banner">Loading Roamings app... </h1>'+
+            '<h1 class="banner">Roamings </h1>'+
+            '<h2 class="banner">Loading codebase, please wait... </h2>'+
         '</body>'
     );
 });
