@@ -53,7 +53,6 @@ Meteor.startup(function () {
                 ]
             }
         ];
-
         roams.forEach(function (roam) {
             Roams.insert(roam);
         });

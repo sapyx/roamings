@@ -1,20 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc service
- * @name roamingsApp.manageKills
- * @requires
- * @requires
-
- * @description
- * # manageKills
- * Service in the roamingsApp.
-
- */
-/*angular.module('roamingsApp')
- .service('manageKills', function ($q, $filter, localStorageService, eveAPI, zKillboardAPI, Restangular) {
- var self = this;*/
-
 class manageKillsService {
 
     _setChangeSSystemortKills(kills) {
@@ -278,7 +263,7 @@ class manageKillsService {
         this._q.all(killRequests)
             .then(successCallback)
             .catch((err)=> {
-                this._log.error("View: ", err);
+                this._log.error("getKillsForCrew: ", err);
 
                 deferred.reject(err);
             });
@@ -286,8 +271,7 @@ class manageKillsService {
         return deferred.promise;
     }
 
-    getSingleKill(crew, startDate, endDate) {
-    }
+    getSingleKill(crew, startDate, endDate) { }
 
     constructor($q, $filter, $log, Restangular) {
         this._log = $log;

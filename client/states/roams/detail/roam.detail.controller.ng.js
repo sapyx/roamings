@@ -27,36 +27,29 @@ class RoamDetailController {
         }
     }
 
-    constructor($rootScope, $scope, $compile, $alert, $state, $window, $timeout,
-                defaultImages, readDB, manageKills) {
-
+    constructor($rootScope, $scope, $compile, $alert, $state, $window, $timeout, defaultImages, readDB, manageKills) {
         this._scope = $scope;
         this._rootScope = $rootScope;
         this._compile = $compile;
         this._window = $window;
         this._timeout = $timeout;
 
-        this._refreshed = false;
-
-        this._addCrewButton('#aside-button');
-
         this.defaultImages = defaultImages;
         this.roamName = $state.params.roamName;
 
         var roamId = $state.params.roamId;
 
+        this._refreshed = false;
+
+        this._addCrewButton('#aside-button');
+
         // read data
         readDB.getRoam(this.roamName, roamId, false)
             .then((roam)=> {
-                if (!roam) {
-                    $state.go('roams.list');
-                    return;
-                } else {
-                    this.crew = angular.copy(roam.crew);
+                this.crew = angular.copy(roam.crew);
 
-                    this.startDate = roam.startDate;
-                    this.endDate = roam.endDate;
-                }
+                this.startDate = roam.startDate;
+                this.endDate = roam.endDate;
                 // end read data
 
                 manageKills.getKillsForCrew(this.crew, this.startDate, this.endDate)
@@ -71,11 +64,20 @@ class RoamDetailController {
                     })
                     .catch((err)=> {
                         $alert({
-                            title: 'Get Kills',
-                            content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
+                            title: 'Get Roam',
+                            content: err,
                             type: 'danger'
                         })
                     });
+            })
+            .catch((err)=> {
+                $alert({
+                    title: 'Get Kills',
+                    content: "Detail: " + err.status + ", " + err.statusText + " (" + err.url + ")",
+                    type: 'danger'
+                });
+
+                $state.go('roams.list');
             });
     }
 }
