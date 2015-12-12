@@ -44,7 +44,7 @@ class readDBService {
 
                 this._log.debug(roam);
 
-                if (!roam || roam.crew.length === 0) {
+                 if (!roam /*|| roam.crew.length === 0*/) {
                     deferred.reject({error: 'no roam or empty crew'});
                 } else {
                     deferred.resolve(roam);

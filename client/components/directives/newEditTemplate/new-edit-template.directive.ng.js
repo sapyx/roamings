@@ -148,12 +148,20 @@ class newEditTemplateController {
         this.inTesting = false;
 
         if (this.isEdit) { // read data; only local for now.
-            var roam = readDB.getRoam(this.roamName);
-            if (!roam) this.dismissRoam();
-
-            this.startDate = roam.startDate;
-            this.endDate = roam.endDate;
-            this.crew = roam.crew;
+            readDB.getRoam(this.roamName)
+            .then((roam)=>{
+                $log.debug(roam);
+    
+                this.startDate = roam.startDate;
+                this.endDate = roam.endDate;
+                this.crew = roam.crew;
+                    
+                }
+            )
+            .catch((err)=> {
+                $log.debug(err);
+                this.dismissRoam();;
+            });
         }
     }
 }
