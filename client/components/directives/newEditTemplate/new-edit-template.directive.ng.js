@@ -149,19 +149,23 @@ class newEditTemplateController {
 
         if (this.isEdit) { // read data; only local for now.
             readDB.getRoam(this.roamName)
-            .then((roam)=>{
-                $log.debug(roam);
-    
-                this.startDate = roam.startDate;
-                this.endDate = roam.endDate;
-                this.crew = roam.crew;
-                    
-                }
-            )
-            .catch((err)=> {
-                $log.debug(err);
-                this.dismissRoam();;
-            });
+                .then((roam)=> {
+                    $log.debug(roam);
+
+                    this.startDate = roam.startDate;
+                    this.endDate = roam.endDate;
+                    this.crew = roam.crew;
+                })
+                .catch((err)=> {
+                    $log.debug(err);
+                    $alert({
+                        title: 'Edit roam',
+                        content: err,
+                        type: 'danger'
+                    });
+
+                    this.dismissRoam();
+                });
         }
     }
 }

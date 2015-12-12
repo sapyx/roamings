@@ -35,10 +35,25 @@ Meteor.startup(function () {
                     {"name": "Gwinet", "id": 95207419, "inZkbd": true},
                     {"name": "lorenzo", "id": 327081255, "inZkbd": true}]
             },
-            { "roam" : "Revenant event", "startDate" : "2015-05-31T16:52:00.000Z", "endDate" : "2015-05-31T20:10:00.000Z", "crew" : [ { "name" : "Thaldarim Sabezan", "id" : "91127449", "inZkbd" : true }, { "name" : "Francky Nackols", "id" : "900538605", "inZkbd" : true }, { "name" : "michon michon", "id" : "95328416", "inZkbd" : true }, { "name" : "Gabriel DePetris", "id" : "92553772", "inZkbd" : true }, { "name" : "nathanius", "id" : "1455516494", "inZkbd" : true }, { "name" : "Void Nova", "id" : "103726790", "inZkbd" : true }, { "name" : "Gwinet", "id" : "95207419", "inZkbd" : true }, { "name" : "Hans Win", "id" : "182036834", "inZkbd" : true }, { "name" : "JG53Werner Molders", "id" : "195919523", "inZkbd" : true }, { "name" : "dondisky", "id" : "1253050232", "inZkbd" : true } ] }
-        
-        ]
-        
+            {
+                "roam": "Revenant event",
+                "startDate": "2015-05-31T16:52:00.000Z",
+                "endDate": "2015-05-31T20:10:00.000Z",
+                "crew": [
+                    {"name": "Thaldarim Sabezan", "id": "91127449", "inZkbd": true},
+                    {"name": "Francky Nackols", "id": "900538605", "inZkbd": true},
+                    {"name": "michon michon", "id": "95328416", "inZkbd": true},
+                    {"name": "Gabriel DePetris", "id": "92553772", "inZkbd": true},
+                    {"name": "nathanius", "id": "1455516494", "inZkbd": true},
+                    {"name": "Void Nova", "id": "103726790", "inZkbd": true},
+                    {"name": "Gwinet", "id": "95207419", "inZkbd": true},
+                    {"name": "Hans Win", "id": "182036834", "inZkbd": true},
+                    {"name": "JG53Werner Molders", "id": "195919523", "inZkbd": true},
+                    {"name": "dondisky", "id": "1253050232", "inZkbd": true}
+                ]
+            }
+        ];
+
         roams.forEach(function (roam) {
             Roams.insert(roam);
         });

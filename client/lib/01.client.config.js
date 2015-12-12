@@ -58,9 +58,9 @@ angular.module('roamingsApp')
             successClass: 'img-load-success' // in case of loading image success what class should be added
         });
     })
-    .config(function ($logProvider, $provide) {
+    .config(function ($logProvider, $provide) { // log service decorator
 
-        $logProvider.debugEnabled(false);
+        $logProvider.debugEnabled(true); // DEBUG flag
 
         $provide.decorator('$log', ($delegate) => {
             //Original methods

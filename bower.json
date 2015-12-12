@@ -39,8 +39,5 @@
   },
   "authors": [
     "Sapyx <sapyx@aruba.it>"
-  ],
-  "resolutions": {
-    "angular": "1.4.8"
-  }
+  ]
 }
