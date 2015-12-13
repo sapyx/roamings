@@ -35,18 +35,18 @@ class pilotsService {
             });
     }
 
-    constructor($log, Restangular) {
+    constructor($log, baseURLs, Restangular) {
         this._log = $log;
 
         this._zKbdRestangular = Restangular.withConfig(
             (RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl('https://beta.eve-kill.net/api/')
+                .setBaseUrl(baseURLs.zKillboard)
                 .setFullResponse(false)
         );
         this._eveApiRestangular = Restangular.withConfig(
             (RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl('https://api.eveonline.com/')
-                .setRequestSuffix('.xml.aspx')
+                .setBaseUrl(baseURLs.eveApi)
+                .setRequestSuffix(baseURLs.eveApiSuffix)
         );
     }
 }

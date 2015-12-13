@@ -140,8 +140,9 @@ class newEditTemplateController {
         this._log = $log;
         this._readDB = readDB;
 
-        this._zKbdRestangular = Restangular.withConfig(
-            (RestangularConfigurer)=> RestangularConfigurer.setBaseUrl('https://beta.eve-kill.net/api/')
+        this._zKbdRestangular = Restangular
+            .withConfig((RestangularConfigurer)=> RestangularConfigurer
+                .setBaseUrl(baseURLs.zKillboard)
         );
 
         this.crew = [];

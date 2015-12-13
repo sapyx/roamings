@@ -273,19 +273,20 @@ class manageKillsService {
 
     getSingleKill(crew, startDate, endDate) { }
 
-    constructor($q, $filter, $log, Restangular) {
+    constructor($q, $filter, $log, baseURLs, Restangular) {
         this._log = $log;
         this._q = $q;
         this._filter = $filter;
 
         this._zKbdRestangular = Restangular
             .withConfig((RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl('https://beta.eve-kill.net/api/'));
+                .setBaseUrl(baseURLs.zKillboard)
+        );
 
         this._eveApiRestangular = Restangular
             .withConfig((RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl('https://api.eveonline.com/')
-                .setRequestSuffix('.xml.aspx')
+                .setBaseUrl(baseURLs.eveApi)
+                .setRequestSuffix(baseURLs.eveApiSuffix)
         );
     }
 }
