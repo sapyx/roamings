@@ -123,6 +123,7 @@ class manageKillsService {
 
         angular.forEach(killsArray, (kills) => {
             this._log.debug('kills: ', kills);
+            //this._log.debug(kills.headers());
 
             angular.forEach(kills, (value, key) => {
                 if ((this._filter('filter')(work.kills, {killID: value.killID}, true)).length === 0) {
@@ -273,21 +274,13 @@ class manageKillsService {
 
     getSingleKill(crew, startDate, endDate) { }
 
-    constructor($q, $filter, $log, baseURLs, Restangular) {
+    constructor($q, $filter, $log, restAPIs) {
         this._log = $log;
         this._q = $q;
         this._filter = $filter;
 
-        this._zKbdRestangular = Restangular
-            .withConfig((RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl(baseURLs.zKillboard)
-        );
-
-        this._eveApiRestangular = Restangular
-            .withConfig((RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl(baseURLs.eveApi)
-                .setRequestSuffix(baseURLs.eveApiSuffix)
-        );
+        this._zKbdRestangular = restAPIs.zKbdRestangular;
+        this._eveApiRestangular = restAPIs.eveApiRestangular;
     }
 }
 

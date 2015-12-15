@@ -34,3 +34,4 @@ sapyx:bootstrap
 #urigo:angular-blaze-template
 meteorhacks:inject-initial
 http
+peerlibrary:xml2js

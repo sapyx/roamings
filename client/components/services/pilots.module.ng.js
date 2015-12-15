@@ -20,6 +20,8 @@ class pilotsService {
                             return {
                                 name: pilotInfo._name,
                                 id: pilotInfo._characterID,
+                                corporationID: zkbPilot.info.corporationID,
+                                allianceID: zkbPilot.info.allianceID,
                                 eveIsPresent: true,
                                 zkbIsPresent: 'groups' in zkbPilot
                             }
@@ -35,19 +37,62 @@ class pilotsService {
             });
     }
 
-    constructor($log, baseURLs, Restangular) {
-        this._log = $log;
+    pilotAffiliation(crew) {
+        var len = 0;
+        var charIds = '';
 
-        this._zKbdRestangular = Restangular.withConfig(
-            (RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl(baseURLs.zKillboard)
-                .setFullResponse(false)
-        );
-        this._eveApiRestangular = Restangular.withConfig(
-            (RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl(baseURLs.eveApi)
-                .setRequestSuffix(baseURLs.eveApiSuffix)
-        );
+        var deferred = this._q.defer();
+        var charAffiliationRequests = [];
+
+        do {
+            for (var loop = 0; (loop < 100); loop++) {
+                if ((loop + len) > crew.length - 1)
+                    break;
+
+                angular.extend(crew[loop + len], {
+                    corporationId: 0,
+                    corporationName: '',
+                    allianceId: 0,
+                    allianceName: '',
+                    factionId: 0,
+                    factionName: ''
+                });
+
+                charIds += crew[loop + len].id + ',';
+            }
+            len += 100;
+            charIds = charIds.slice(0, -1);
+
+            charAffiliationRequests.push(
+                this._eveApiRestangular.all('eve').all("CharacterAffiliation").get('', {'ids': charIds})
+            );
+
+            charIds = '';
+        }
+        while (len < crew.length);
+
+        this._q.all(charAffiliationRequests)
+            .then((charAffiliationResponse)=>{
+                this._log.debug(charAffiliationResponse);
+                angular.forEach(crew, (member, pos) => {
+                });
+            })
+            .catch((err)=> {
+                this._log.error("pilotAffiliation: ", err);
+
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+
+    }
+
+    constructor($q, $log, restAPIs) {
+        this._log = $log;
+        this._q = $q;
+
+        this._zKbdRestangular = restAPIs.zKbdRestangular;
+        this._eveApiRestangular = restAPIs.eveApiRestangular;
     }
 }
 

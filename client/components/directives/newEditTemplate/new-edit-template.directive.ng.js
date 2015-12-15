@@ -4,7 +4,7 @@ class newEditTemplateController {
         this._readDB.saveRoam(this.roamName, {
             startDate: this.startDate,
             endDate: this.endDate,
-            crew: angular.copy(this.crew)
+            crew: this._pilots.pilotAffiliation(this.crew)
         });
 
         this.roamSave()(this.roamName);  //Call external scope's function
@@ -133,17 +133,15 @@ class newEditTemplateController {
         this.pilotName = pilotName;
     }
 
-    constructor($log, $filter, $alert, pilots, Restangular, readDB) {
+    constructor($log, $filter, $alert, pilots, restAPIs, readDB) {
         this._filter = $filter;
         this._alert = $alert;
         this._pilots = pilots;
         this._log = $log;
         this._readDB = readDB;
 
-        this._zKbdRestangular = Restangular
-            .withConfig((RestangularConfigurer)=> RestangularConfigurer
-                .setBaseUrl(baseURLs.zKillboard)
-        );
+        this._zKbdRestangular = restAPIs.zKbdRestangular;
+        //this._eveApiRestangular = restAPIs.eveApiRestangular;
 
         this.crew = [];
         this.inTesting = false;
