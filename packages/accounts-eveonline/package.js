@@ -15,7 +15,7 @@ Package.onUse(function (api) {
     api.use('oauth2', ['client', 'server']);
     api.use('http', ['client', 'server']);
     api.use('service-configuration', ['client', 'server']);
-    //api.use('random', 'client');
+    api.use('random', 'client');
     //api.use('templating', 'client');
 
     api.addFiles('js/eveonline_common.js', ['client', 'server']);
