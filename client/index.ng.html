@@ -14,9 +14,8 @@
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
 
-                <span>
-                    <img class="navbar-btn btn-margin-right pull-right "
-                         ng-if="currentUser"
+                <span ng-if="currentUser">
+                    <img class="navbar-btn btn-margin-right pull-right img-circle"
                          alt="{{ currentUser.profile.eveOnlineCharacterName }}"
                          width="32"
                          height="32"
