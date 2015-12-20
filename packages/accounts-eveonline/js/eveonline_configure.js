@@ -1,6 +1,4 @@
-Template.configureLoginServiceDialogForEveonline.base_url = function () {
-    return Meteor.absoluteUrl();
-};
+Template.configureLoginServiceDialogForEveonline.base_url = function () { return Meteor.absoluteUrl(); }
 
 Template.configureLoginServiceDialogForEveonline.fields = function () {
     return [

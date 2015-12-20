@@ -4,9 +4,7 @@ var urlUtil = Npm.require('url');
 OAuth.registerService('eveonline', 2, null, function (query) {
     var response = getTokenResponse(query);
     var verificaton = getVerification(response.accessToken);
-    //var details = getDetails(verificaton.CharacterID);
-
-    //console.log('details: ', details)
+    var details = EveonlineApi.getCharacterAffiliation(verificaton.CharacterID);
 
     return {
         serviceData: {
@@ -18,7 +16,13 @@ OAuth.registerService('eveonline', 2, null, function (query) {
         options: {
             profile: {
                 eveOnlineCharacterId: verificaton.CharacterID,
-                eveOnlineCharacterName: verificaton.CharacterName
+                eveOnlineCharacterName: verificaton.CharacterName,
+                eveOnlineCorporationId: details._corporationID,
+                eveOnlineCorporationName: details._corporationName,
+                eveOnlineAllianceId: details._allianceID,
+                eveOnlineAllianceName: details._allianceName,
+                eveOnlineFactionId: details._factionID,
+                eveOnlineFactionName: details._factionName
             }
         }
     };
@@ -61,13 +65,6 @@ var getTokenResponse = function (query) {
         expiresIn: parsedResponse.expires_in,
         refreshToken: parsedResponse.refresh_token
     };
-};
-
-var getDetails = function (characterId) {
-    //debugger
-    angular.module('roamingsApp').run(function (eveAPI) {
-        console.log('eveapi', eveAPI)
-    });
 };
 
 var getVerification = function (accessToken) {

@@ -13,24 +13,18 @@ angular.module('roamingsApp')
                     }
                 },
                 controller: function ($state, $alert, PreviousState) {
-                    var serviceName = 'Eveonline';
-                    var loginWithService = Meteor["loginWith" + serviceName];
-
-                    var options = {};
-
-                    loginWithService(options, function (err) {
+                    Meteor.loginWithEveonline({}, function (err) {
                         if (err) {
                             $alert({
                                 title: 'Login',
                                 content: err.reason || 'Unknown error',
                                 type: 'error'
                             })
+                        } else {
+                            $state.go(PreviousState.Name, PreviousState.Params, {reload: false});
                         }
                     });
 
-                    $state.go(PreviousState.Name, PreviousState.Params, {reload: false});
                 }
             })
     });
-
-

@@ -6,6 +6,10 @@ if (typeof EveonlineHelpers === 'undefined') {
     EveonlineHelpers = {};
 }
 
+if (typeof EveonlineApi === 'undefined') {
+    EveonlineApi = {};
+}
+
 Accounts.oauth.registerService('eveonline');
 
 if (Meteor.isClient) {
