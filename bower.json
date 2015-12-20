@@ -39,5 +39,8 @@
   },
   "authors": [
     "Sapyx <sapyx@aruba.it>"
-  ]
+  ],
+  "resolutions": {
+    "angular": "^1.2.21"
+  }
 }
