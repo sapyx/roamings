@@ -65,7 +65,7 @@ reactive-var@1.0.6
 reload@1.1.4
 retry@1.0.4
 routepolicy@1.0.6
-sapyx:accounts-eveonline@0.1.1
+sapyx:accounts-eveonline@0.2.1
 sapyx:bootstrap@0.0.1
 service-configuration@1.0.5
 session@1.1.1
