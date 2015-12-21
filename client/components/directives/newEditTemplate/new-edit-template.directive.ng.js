@@ -4,7 +4,7 @@ class newEditTemplateController {
         this._readDB.saveRoam(this.roamName, {
             startDate: this.startDate,
             endDate: this.endDate,
-            crew: this.crew //this._pilots.pilotAffiliation(this.crew)
+            crew: angular.copy(this.crew) //this._pilots.pilotAffiliation(this.crew)
         });
 
         this.roamSave()(this.roamName);  //Call external scope's function
