@@ -24,7 +24,6 @@ angular.module('roamingsApp')
                             $state.go(PreviousState.Name, PreviousState.Params, {reload: false});
                         }
                     });
-
                 }
             })
     });
