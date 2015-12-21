@@ -1,13 +1,13 @@
 Roams = new Mongo.Collection('roams');
 
-Roams.allow({
-  insert: function(userId, roam) {
+Roams.deny({
+  insert: function () {
     return true;
   },
-  update: function(userId, roam, fields, modifier) {
+  update: function () {
     return true;
   },
-  remove: function(userId, roam) {
+  remove: function () {
     return true;
   }
 });

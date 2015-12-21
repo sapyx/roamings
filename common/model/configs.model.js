@@ -1,13 +1,13 @@
 Configs = new Mongo.Collection('configs');
 
-Configs.allow({
-  insert: function(userId, config) {
-    return userId;
+Configs.deny({
+  insert: function () {
+    return true;
   },
-  update: function(userId, config, fields, modifier) {
-    return userId;
+  update: function () {
+    return true;
   },
-  remove: function(userId, config) {
-    return userId;
+  remove: function () {
+    return true;
   }
 });
