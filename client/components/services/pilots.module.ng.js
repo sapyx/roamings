@@ -17,22 +17,34 @@ class pilotsService {
                     return this._zKbdRestangular.all('stats').one('characterID', pilotInfo._characterID).get()
                         .then((zkbPilot)=> {
                             this._log.info(zkbPilot.plain());
-                            return {
-                                name: pilotInfo._name,
-                                id: pilotInfo._characterID,
-                                corporationID: zkbPilot.info.corporationID,
-                                allianceID: zkbPilot.info.allianceID,
-                                eveIsPresent: true,
-                                zkbIsPresent: 'groups' in zkbPilot
+
+                            if ('groups' in zkbPilot) {
+                                return {
+                                    name: pilotInfo._name,
+                                    id: pilotInfo._characterID,
+                                    corporationID: zkbPilot.info.corporationID,
+                                    allianceID: zkbPilot.info.allianceID,
+                                    eveIsPresent: true,
+                                    zkbIsPresent: true
+                                }
+                            } else {
+                                return {
+                                    name: pilotInfo._name,
+                                    id: pilotInfo._characterID,
+                                    corporationID: 0,
+                                    allianceID: 0,
+                                    eveIsPresent: true,
+                                    zkbIsPresent: false
+                                }
                             }
                         })
                         .catch((err)=> {
-                            this._log.error('Catch N.3:', err);
+                            this._log.error('Catch N.3 - %s: %s', err.errorType, err.message);
                             return 'Error on zkillboard API'
                         });
             })
             .catch((err)=> {
-                this._log.error('Catch N.1:', err);
+                this._log.error('Catch N.1 - %s: %s', err.errorType, err.message);
                 return 'Error on EVE API'
             });
     }
@@ -72,7 +84,7 @@ class pilotsService {
         while (len < crew.length);
 
         this._q.all(charAffiliationRequests)
-            .then((charAffiliationResponse)=>{
+            .then((charAffiliationResponse)=> {
                 this._log.debug(charAffiliationResponse);
                 angular.forEach(crew, (member, pos) => {
                 });
@@ -96,4 +108,12 @@ class pilotsService {
     }
 }
 
-angular.module('roamingsApp').service('pilots', pilotsService);
+angular
+    .
+    module(
+    'roamingsApp').
+    service(
+    'pilots',
+    pilotsService
+)
+;
