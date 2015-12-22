@@ -6,6 +6,7 @@ angular.module('roamingsApp')
             .state('login', {
                 // url: '/login',
                 //templateUrl: 'client/states/404/404.view.ng.html',
+                template: '<h1>Logging in...</h1>',
 
                 resolve: {
                     PreviousState: function ($state) {
@@ -17,8 +18,8 @@ angular.module('roamingsApp')
                         if (err) {
                             $alert({
                                 title: 'Login',
-                                content: err.message || 'Unknown error',
-                                type: err.errorType
+                                content: err.errorType + ': '+ err.message,
+                                type: 'danger'
                             });
                             $log.debug('%s: %s',err.errorType, err.message);
                         }
