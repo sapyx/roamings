@@ -85,7 +85,7 @@ class pilotsService {
 
         this._q.all(charAffiliationRequests)
             .then((charAffiliationResponse)=> {
-                this._log.debug(charAffiliationResponse);
+                this._log.debug(charAffiliationResponse.plain());
                 angular.forEach(crew, (member, pos) => {
                 });
             })
@@ -108,12 +108,4 @@ class pilotsService {
     }
 }
 
-angular
-    .
-    module(
-    'roamingsApp').
-    service(
-    'pilots',
-    pilotsService
-)
-;
+angular.module('roamingsApp').service('pilots', pilotsService);

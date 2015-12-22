@@ -82,7 +82,7 @@ class manageKillsService {
             if (moonIdsList.length !== 0) {
                 this._eveApiRestangular.all('eve').all("CharacterName").get('', {ids: moonIdsList})
                     .then((apiResult) => {
-                        this._log.info(apiResult.plain());
+                        this._log.debug(apiResult.plain());
 
                         var moonNames = apiResult.eveapi.result.rowset.row;
 
@@ -122,8 +122,7 @@ class manageKillsService {
         };
 
         angular.forEach(killsArray, (kills) => {
-            this._log.debug('kills: ', kills);
-            //this._log.debug(kills.headers());
+            this._log.debug('kills: ', kills.plain());
 
             angular.forEach(kills, (value, key) => {
                 if ((this._filter('filter')(work.kills, {killID: value.killID}, true)).length === 0) {
