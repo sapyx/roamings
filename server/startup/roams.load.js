@@ -56,19 +56,14 @@ Meteor.startup(function () {
                 "roam": "Caracal Roam 01",
                 "startDate": "2015-12-20T14:55:00.000Z",
                 "endDate": "2015-12-20T15:15:00.000Z",
-                "crew": [{"name": "nathanius", "id": 1455516494, "inZkbd": true}, {
-                    "name": "Ringhio Rucola",
-                    "id": 92628585,
-                    "inZkbd": true
-                }, {"name": "Ayne Echerie", "id": 95446367, "inZkbd": true}, {
-                    "name": "Killerloop",
-                    "id": 95371562,
-                    "inZkbd": true
-                }, {"name": "lorenzo", "id": 327081255, "inZkbd": true}, {
-                    "name": "Angelos Dallocort",
-                    "id": 94228470,
-                    "inZkbd": true
-                }]
+                "crew": [
+                    {"name": "nathanius", "id": 1455516494, "inZkbd": true},
+                    {"name": "Ringhio Rucola", "id": 92628585, "inZkbd": true},
+                    {"name": "Ayne Echerie", "id": 95446367, "inZkbd": true},
+                    {"name": "Killerloop", "id": 95371562, "inZkbd": true},
+                    {"name": "lorenzo", "id": 327081255, "inZkbd": true},
+                    {"name": "Angelos Dallocort", "id": 94228470, "inZkbd": true}
+                ]
             }
         ];
         roams.forEach(function (roam) {
