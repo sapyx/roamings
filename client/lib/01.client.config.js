@@ -23,9 +23,10 @@ angular.module('roamingsApp')
     })
     .config(function ($alertProvider) {
         angular.extend($alertProvider.defaults, {
-            //placement: 'top-right',
+//            container: '#alert',
+            container: 'body',
+            placement: 'top-right',
             type: 'info',
-            container: '#alert',
             duration: 3,
             animation: 'am-fade-and-slide-top',
             show: true

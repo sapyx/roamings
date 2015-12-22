@@ -47,10 +47,10 @@ class newEditTemplateController {
                     this.inTesting = false;
                 })
                 .catch((err) => {
-                    this._log.debug(err);
+                    this._log.debug('%s: %s',err.errorType, err.message);
                     this._alert({
                         title: 'Add crew',
-                        content: "Mass Add: " + err.status,
+                        content: "Mass Add: " + err.message,
                         type: 'danger'
                     });
                 });
@@ -107,11 +107,11 @@ class newEditTemplateController {
                 .catch((err) => {
                     this._alert({
                         title: 'Add crew',
-                        content: "NewEdit: " + err.status + ", " + err.statusText + " (" + err.url + ")",
+                        content: "NewEdit: " + err.errorType + ", " + err.message,
                         type: 'danger'
                     });
 
-                    this._log.debug("NewEdit: ", err.status, err.statusText);
+                    this._log.debug('New Edit - %s: %s',err.errorType, err.message);
                 })
                 .finally(() => {
                     this.pilotName = "";
@@ -156,7 +156,7 @@ class newEditTemplateController {
                     this.crew = roam.crew;
                 })
                 .catch((err)=> {
-                    $log.debug(err);
+                    $log.debug('%s: %s',err.errorType, err.message);
                     $alert({
                         title: 'Edit roam',
                         content: err,
