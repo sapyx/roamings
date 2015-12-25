@@ -10,8 +10,8 @@ angular.module('roamingsApp')
                         return {Name: $state.current.name, Params: $state.params};
                     }
                 },
-                controller: function ($state, $meteor, previousState) {
-                    $meteor.logout();
+                controller: function ($state, previousState) {
+                    Meteor.logout();
 
                     $state.go(previousState.Name, previousState.Params, {reload: false});
                 }

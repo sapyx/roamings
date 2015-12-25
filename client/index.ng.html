@@ -14,12 +14,12 @@
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
 
-                <span ng-if="currentUser">
+                <span ng-if="currentUserX">
                     <img class="navbar-btn btn-margin-right pull-right img-circle"
-                         alt="{{ currentUser.profile.eveOnlineCharacterName }}"
+                         alt="{{ currentUserX.profile.eveOnlineCharacterName }}"
                          width="32"
                          height="32"
-                         ng-src="https://imageserver.eveonline.com/Character/{{ currentUser.profile.eveOnlineCharacterId }}_32.jpg">
+                         ng-src="https://imageserver.eveonline.com/Character/{{ currentUserX.profile.eveOnlineCharacterId }}_32.jpg">
                 </span>
 
                 <a class="navbar-brand" ui-sref="home">Roamings</a>
@@ -33,14 +33,14 @@
                     <li data-match-route="/contact"><a ui-sref="contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="!currentUser">
+                    <li ng-if="!currentUserX">
                         <p class="navbar-btn">
                             <a ui-sref="login" class="btn btn-default">
                                 <img class="btn-eveonline" src="empty_1.png">
                             </a>
                         </p>
                     </li>
-                    <li ng-if="currentUser">
+                    <li ng-if="currentUserX">
                         <p class="navbar-btn">
                             <a ui-sref="logoff" class="btn btn-default">Logoff</a>
                         </p>
