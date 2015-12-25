@@ -1,7 +1,7 @@
 'use strict';
 
 class ContactController {
-    constructor($meteor, defaultImages) {
+    constructor(defaultImages) {
         this.defaultImages = defaultImages;
 
         this.author = {Id: 905954997, Name: 'Anne Sapyx'};

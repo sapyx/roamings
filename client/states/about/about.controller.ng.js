@@ -1,7 +1,7 @@
 'use strict';
 
 class AboutController {
-    constructor($meteor) {
+    constructor() {
         this.version = '0.8.5';
     };
 }

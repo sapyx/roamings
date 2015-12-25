@@ -7,6 +7,7 @@ Meteor.startup(function () {
                 "endDate": "2015-10-30T22:55:00.000Z",
                 "crew": [
                     {"name": "Anne Sapyx", "id": 905954997, "inZkbd": true},
+                    {"name": "Hans Win", "id": "182036834", "inZkbd": true},
                     {"name": "Sigma Ceti", "id": 728182540, "inZkbd": true},
                     {"name": "Lorenso", "id": 781526422, "inZkbd": true},
                     {"name": "Killerloop", "id": 95371562, "inZkbd": true},
