@@ -21,25 +21,30 @@ class readDBService {
 
     getRoam(roamName, roamId, isAuthenticated) {
         var roam;
+        var deferred = this._q.defer();
 
         if (roamId) {
-            return this._meteor.subscribe('roams')
-                .then((subscriptionHandle)=> {
-                    roam = Roams.findOne({_id: roamId});
+            var subscriptionHandle = Meteor.subscribe('roams', null, {
+                onReady: ()=> {
+                    this._log.debug("onReady And roam actually arrive");
 
-                    this._log.debug(roamId, roam);
+                    roam = Roams.findOne({_id: roamId});
+                    this._log.debug(roam);
 
                     subscriptionHandle.stop(); //stop the subscription
-
-                    return roam;
-                })
-                .catch((err)=> {
-                    return err;
-                });
+                    deferred.resolve(roam);
+                },
+                onStop: (err) => {
+                    if (err) {
+                        this._log.error('An error happened - ' + err);
+                        deferred.reject({error: err});
+                    } else {
+                        this._log.debug('The subscription stopped');
+                    }
+                }
+            });
         } else {
             if (this._localStorageService.isSupported) {
-                var deferred = this._q.defer();
-
                 roam = this._localStorageService.get(roamName);
 
                 this._log.debug(roam);
@@ -49,22 +54,24 @@ class readDBService {
                 } else {
                     deferred.resolve(roam);
                 }
-
-                return deferred.promise;
             }
         }
+        return deferred.promise;
     }
 
     getRoamsList(isAuthenticated) {
-        var rowCollection = [];
+        var defRemote = this._q.defer();
+        var defLocal = this._q.defer();
 
-        this._meteor.subscribe('roams')
-            .then((subscriptionHandle)=> {
-                var roams = this._meteor.collection(Roams, false, false);
+        var subscriptionHandle = Meteor.subscribe('roams', null, {
+            onReady: ()=> {
+                this._log.debug("onReady And roams actually arrive");
+                var remoteRows = [];
 
+                var roams = Roams.find({});
                 angular.forEach(roams, (value)=> {
                     if (angular.isObject(value)) {
-                        rowCollection.push({
+                        remoteRows.push({
                             'id': value._id,
                             'label': value.roam,
                             'startDate': value.startDate,
@@ -76,15 +83,27 @@ class readDBService {
                 });
 
                 subscriptionHandle.stop(); //stop the subscription
-            });
+                defRemote.resolve(remoteRows);
+            },
+            onStop: (err) => {
+                if (err) {
+                    this._log.error('An error happened - ' + err);
+                    //deferred.reject({error: err});
+                } else {
+                    this._log.debug('The subscription stopped');
+                }
+            }
+        });
 
         if (this._localStorageService.isSupported) {
             var keys = this._localStorageService.keys();
+            var localRows = [];
 
             angular.forEach(keys, (value)=> {
                 var content = this._localStorageService.get(value);
+
                 if (angular.isObject(content)) {
-                    rowCollection.push({
+                    localRows.push({
                         'label': value,
                         'startDate': content.startDate,
                         'endDate': content.endDate,
@@ -93,9 +112,21 @@ class readDBService {
                     });
                 }
             });
+            defLocal.resolve(localRows);
         }
 
-        return rowCollection;
+        return this._q.all([defLocal.promise, defRemote.promise])
+            .then((roamsLists)=> {
+                var roamsList = [];
+
+                angular.forEach(roamsLists, (rows) => {
+                    angular.forEach(rows, (row) => {
+                        roamsList.push(row);
+                    });
+                });
+
+                return roamsList
+            });
     }
 
     deleteRoam(roamName, isAuthenticated) {
@@ -108,11 +139,10 @@ class readDBService {
         }
     }
 
-    constructor($q, $log, $meteor, localStorageService) {
+    constructor($q, $log, localStorageService) {
+        this._localStorageService = localStorageService;
         this._log = $log;
         this._q = $q;
-        this._meteor = $meteor;
-        this._localStorageService = localStorageService;
     }
 }
 

@@ -31,7 +31,7 @@ class RoamsListController {
         }
     }
 
-    constructor($filter, $state, readDB) {
+    constructor($scope, $timeout, $filter, $state, $alert, readDB) {
         this._filter = $filter;
         this._state = $state;
         this._readDB = readDB;
@@ -40,7 +40,15 @@ class RoamsListController {
         this.edit = {'title': "Edit this roam"};
         this.remove = {'title': "Delete this roam"};
 
-        this.roamsList = this._readDB.getRoamsList(false);
+        this._readDB.getRoamsList(false)
+            .then((roamsList)=> {this.roamsList = roamsList;})
+            .catch((err)=> {
+                $alert({
+                    title: 'Get Roams',
+                    content: err.toString(),
+                    type: 'danger'
+                });
+            });
     }
 }
 

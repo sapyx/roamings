@@ -1,15 +1,31 @@
 'use strict';
 
 class HomeController {
-    constructor($meteor, defaultImages) {
+    constructor($scope, $reactive, $log, defaultImages) {
         this.defaultImages = defaultImages;
+        $reactive(this).attach($scope);
 
-        $meteor.subscribe('configs')
-            .then((subscriptionHandle)=> {
-                this.corporation = $meteor.collection(Configs, false, false)[0];
+        this.subscribe('config_corp', null, {
+            onReady: ()=> {
+                $log.debug("onReady And the Config Items actually Arrive");
 
-                subscriptionHandle.stop(); //stop the subscription
-            });
+                this.helpers({
+                    corporation: ()=> {
+                        return Configs.findOne();
+                    }
+                });
+
+                $log.debug('Quering corporation config:')
+                $log.debug(this.corporation);
+            },
+            onStop: (err) => {
+                if (err) {
+                    $log.error('An error happened - ' + err);
+                } else {
+                    $log.debug('The subscription stopped');
+                }
+            }
+        });
     }
 }
 
